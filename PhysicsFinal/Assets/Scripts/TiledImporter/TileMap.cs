@@ -18,7 +18,11 @@ public class TileMap {
 	List<TileLayer> myTileLayers;
 	List<Sprite> mySpriteList;
 	Sprite mySprite;
+	TileLayer myTileLayer;
 
+
+	int x;
+	int y;
 	public TileMap(TextAsset _text)
 	{
 		myTextAsset = _text;
@@ -70,8 +74,24 @@ public class TileMap {
 				string layerName = outerNode.Attributes["name"].InnerText;
 				string dataText = myDataNode.InnerText;
 
-				//Create a new TileLayer object
-				TileLayer myTileLayer = new TileLayer(layerName,dataText, layerWidth, layerHeight, myTileSet, currentLayer);
+				//Create a "root" for the layers. If it's a collision layer, ignore this step
+				GameObject rootLayer;
+				if(layerName != "Collision")
+					rootLayer = new GameObject(layerName);
+				else
+					rootLayer = null;
+
+				myTileLayer = new TileLayer(layerName, dataText, layerWidth, layerHeight, myTileSet, currentLayer, rootLayer);
+
+				if(outerNode.FirstChild.Name == "properties")
+				{
+					//Get the "property" node of the "proeprties" node and take the inner text of the attribute value
+					//This value corresponds to what layer this particular collision layer corresponds to
+					string colliderFor = outerNode.FirstChild.FirstChild.Attributes["value"].InnerText;
+					myTileLayer.ColliderFor = colliderFor;
+				}
+
+				//Create a new TileLayer object and add it to the list
 				myTileLayers.Add(myTileLayer);
 				currentLayer++;
 					break;
@@ -83,69 +103,120 @@ public class TileMap {
 	/* CREATES THE LEVEL */
 	void CreateLevelPrefab()
 	{
-		Material defaultMaterial = (Material)Resources.Load("Materials/Sprites") as Material; //Get the default sprite material
-
 		foreach(TileLayer layer in myTileLayers)
 		{
+			/* -- GENERATE THE ART LAYER -- */
 			if(layer.LayerName != "Collision")
 			{
-				//Create a root gameobject for the layer to be generated underneath
-				GameObject rootLayer = new GameObject(layer.LayerName);
-
-				//Load the texture file that was passed to the layer - Assuming it's in the resources folder of the project
-				Texture2D myTexture = (Texture2D)Resources.Load(layer.TexturePath.Trim('/').Split('.')[0]) as Texture2D;
-
-				//Variables..
-				int amountOfTiles = myTexture.width/layer.TileSet.TileWidth * myTexture.height/layer.TileSet.TileHeight;
-				int x = 0;
-				int y = 0;
-
-				//Separate the texture into multiple sprites for ease of access, as Unity reads texture coordinates from the bottom left.
-				for(int i = 0 ; i < amountOfTiles; i++)
-				{
-					if(x > 0 && x == myTexture.width/layer.TileSet.TileWidth)
-					{
-						x = 0;
-						y++;
-					}
-
-					mySprite = Sprite.Create(myTexture, new Rect(32*x, myTexture.height - 32*(y+1), layer.TileSet.TileWidth, layer.TileSet.TileHeight), new Vector2(0,0), 32f);
-					mySpriteList.Add(mySprite);
-					x++;
-				}
-
-				x = 0;
-				y = 0;
-				int spriteIndex;
-
+				//Generate the sprite list..
+				CreateSpriteList (layer);
 				//Generate the layer...
-				for(int i = 0; i < layer.LayerWidth * layer.LayerHeight; i++)
-				{
-					if(x > 0 && x == layer.LayerWidth)
-					{
-						x = 0;
-						y--;
-					}
-					GameObject tileObject = new GameObject("Tile");
-					SpriteRenderer myRenderer = tileObject.AddComponent<SpriteRenderer>();
-
-					//Set the position of the GameObjects
-					tileObject.transform.position = new Vector3(x,y,0);
-
-					//Set the parent to the root object
-					tileObject.transform.parent = rootLayer.transform;
-
-					//Set the material and sprite on the GameObject for rendering purposes
-					myRenderer.material = defaultMaterial;
-					spriteIndex = int.Parse(layer.LayerData[i])-1;
-
-					if(spriteIndex >= 0)
-						myRenderer.sprite = mySpriteList[spriteIndex];
-
-					x++;
-				}
-				UnityEditor.PrefabUtility.CreatePrefab("Assets/Prefabs/newPrefab.prefab", rootLayer);
+				GenerateLayer (layer);
 			}
+
+			/* -- GENERATE THE COLLISION LAYER -- */
+			else if(layer.LayerName == "Collision" || layer.LayerName == "collision")
+			{
+				GenerateCollisionLayer(layer);
+			}
+
+		}
+	}
+
+	//SPRITE SHEET
+	private void CreateSpriteList(TileLayer layer)
+	{
+		Texture2D myTexture = (Texture2D)Resources.Load(layer.TexturePath.Trim('/').Split('.')[0]) as Texture2D;
+		int amountOfTiles = myTexture.width/layer.TileSet.TileWidth * myTexture.height/layer.TileSet.TileHeight;
+		x = 0;
+		y = 0;
+		
+		//Separate the texture into multiple sprites for ease of access, as Unity reads texture coordinates from the bottom left.
+		for(int i = 0 ; i < amountOfTiles; i++)
+		{
+			if(x > 0 && x == myTexture.width/layer.TileSet.TileWidth)
+			{
+				x = 0;
+				y++;
+			}
+			
+			mySprite = Sprite.Create(myTexture, new Rect(32*x, myTexture.height - 32*(y+1), layer.TileSet.TileWidth, layer.TileSet.TileHeight), 
+			                         new Vector2(0,0), layer.TileSet.TileWidth);
+			
+			//Add the clipped sprite to the sprite list
+			mySpriteList.Add(mySprite);
+			x++;
+		}
+	}
+
+	//ART LAYER
+	private void GenerateLayer(TileLayer myLayer)
+	{
+		Material defaultMaterial = (Material)Resources.Load("Materials/Sprites") as Material; //Get the default sprite material
+		x = 0;
+	    y = 0;
+		int z = myLayer.CurrentLayer;
+
+		for(int i = 0; i < myLayer.LayerWidth * myLayer.LayerHeight; i++)
+		{
+			int index = int.Parse(myLayer.LayerData[i]);
+
+			if(x > 0 && x >= myLayer.LayerWidth)
+			{
+				x = 0;
+				y--;
+			}
+			if(index > 0)
+			{
+				GameObject tileObject = new GameObject("Tile");
+				SpriteRenderer myRenderer = tileObject.AddComponent<SpriteRenderer>();
+				
+				//Set the position of the GameObjects
+				tileObject.transform.parent = myLayer.GetRoot.transform;
+				tileObject.transform.position = new Vector3(x,y,z);
+				
+				//Set the material and sprite on the GameObject for rendering purposes
+				myRenderer.material = defaultMaterial;
+				myRenderer.sprite = mySpriteList[index-1];
+			}
+			x++;
+		}
+	}
+
+	//COLLISION LAYER
+	private void GenerateCollisionLayer(TileLayer layer)
+	{
+		x = 0;
+		y = 0;
+		GameObject rootLayer = null;
+
+		for(int i = 0; i < myTileLayers.Count; i++)
+		{
+			if(layer.ColliderFor == myTileLayers[i].LayerName)
+			{
+				rootLayer = myTileLayers[i].GetRoot;
+			}
+		}
+
+		//Generate the layer...
+		for(int i = 0; i < layer.LayerWidth * layer.LayerHeight; i++)
+		{
+			int index = int.Parse (layer.LayerData[i]);
+			if(x > 0 && x == layer.LayerWidth)
+			{
+				x = 0;
+				y--;
+			}
+
+			if(index != 0 )
+			{
+				GameObject collisionObject = new GameObject("Collider");
+				collisionObject.AddComponent<BoxCollider2D>();
+				collisionObject.GetComponent<BoxCollider2D>().center = new Vector2(0.5f, 0.5f);
+				collisionObject.transform.parent = rootLayer.transform;
+				collisionObject.transform.position = new Vector3(x,y,0);
+			}
+			x++;
 		}
 	}
 }

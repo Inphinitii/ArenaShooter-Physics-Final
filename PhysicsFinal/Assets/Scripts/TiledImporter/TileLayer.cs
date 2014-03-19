@@ -14,24 +14,23 @@ public class TileLayer{
 	TileSet layerTileSet;
 	string[] layerData;
 	string layerName;
+	string colliderFor;
 	int layerWidth;
 	int layerHeight;
 	int currentLayer;
-
-	SpriteRenderer myRenderer;
-	Material defaultMaterial;
-	Texture2D myTexture;
+	GameObject rootObject;
 	string myTextureLocation;
 
-	public TileLayer(string _layerName, string _layerData, int _layerWidth, int _layerHeight, TileSet _myTileSet, int _currentLayer)
+	public TileLayer(string _layerName, string _layerData, int _layerWidth, int _layerHeight, TileSet _myTileSet, int _currentLayer, GameObject _root)
 	{
-		layerName = _layerName;
+		layerName = _layerName.Trim();
 		layerData = _layerData.Split(',');
 		layerWidth = _layerWidth;
 		layerHeight = _layerHeight;
 		layerTileSet = _myTileSet;
 		currentLayer = _currentLayer;
 		myTextureLocation = _myTileSet.ImageSource.TrimStart('.');
+		rootObject = _root;
 	}
 
 	public string LayerName
@@ -59,8 +58,25 @@ public class TileLayer{
 		get { return layerHeight;}
 	}
 
+	public int CurrentLayer
+	{
+		get {return currentLayer;}
+	}
+
 	public TileSet TileSet
 	{
 		get { return layerTileSet;}
 	}
+
+	public string ColliderFor
+	{
+		get { return colliderFor; }
+		set { colliderFor = value; }
+	}
+
+	public GameObject GetRoot
+	{
+		get { return rootObject; }
+	}
+
 }
