@@ -23,6 +23,8 @@ public class Buoyancy : MonoBehaviour {
 	private Vector3 buoyantForce; //the force that will act upon the cube when in water
 	private Vector3 damperForce; //the force that is added to fake a friction force
 	private float waterLine; //the surface of the water
+	private float waterLeft; //the left side of the water area
+	private float waterRight; //the right side of the water area
 	private float fluidDensity; //the density of the liquid in 'kg/L'
 	private float appliedDamper; //the damper that is pluged into the damperForce equation
 
@@ -32,10 +34,12 @@ public class Buoyancy : MonoBehaviour {
 
 	private Vector3 acceleration; //the acceleration of the box in 'm/s^2'
 	private Vector3 netForce; //the sum of all forces acting upon the box in 'N'
-	private Vector3 boxSize;
+	private Vector3 boxSize; //the length, width and depth of the box sides
 	private float boxVolume; //volume of the box in 'L'
 	private float bottom; //the position of the bottom of the box
 	private float top; //the position of the top of the box
+	private float boxLeft;
+	private float boxRight;
 
 	// Use this for initialization
 	void Start () 
@@ -46,6 +50,11 @@ public class Buoyancy : MonoBehaviour {
 
 		//the waterLine is the top of the body of water or the surface of the water
 		waterLine = this.transform.position.y + (0.5f * this.transform.lossyScale.y);
+
+		waterLeft = this.transform.position.x - (0.5f * this.transform.lossyScale.x);
+
+		waterRight = this.transform.position.x + (0.5f * this.transform.lossyScale.x);
+
 		//the density of water is 1.0 kg/L. This is important to know as objects with a density
 		//greater than this should sink, while objects with a density less than this should float
 		fluidDensity = 1.0f;
@@ -54,6 +63,7 @@ public class Buoyancy : MonoBehaviour {
 		 * Box initialization	*
 		 ************************/
 
+		//get the size of every side of the box (legth, width and depth)
 		boxSize = box.transform.lossyScale;
 
 		/*
@@ -62,6 +72,7 @@ public class Buoyancy : MonoBehaviour {
 		 *	The box size is in meters and must be converted to litres (1m^3 = 1000L)
 		 */
 		boxVolume = (boxSize.x * boxSize.y * boxSize.z) * 1000;
+
 		//change the mass based on the density of the box and volume
 		box.rigidbody.mass = boxDensity * boxVolume;
 	}
@@ -71,8 +82,13 @@ public class Buoyancy : MonoBehaviour {
 	{
 		//get the bottom of the box (the centre - half the height)
 		bottom = box.transform.position.y - (0.5f * boxSize.y);
+
 		//get the top of the box (the centre + half the height)
 		top = box.transform.position.y + (0.5f * boxSize.y);
+
+		boxLeft = box.transform.position.x - (0.5f * boxSize.x);
+
+		boxRight = box.transform.position.x + (0.5f * boxSize.x);
 
 		if (bottom > waterLine)
 		{
@@ -84,7 +100,7 @@ public class Buoyancy : MonoBehaviour {
 
 			Debug.Log("above Water");
 		}
-		if (top < waterLine)
+		if (top < waterLine && boxRight > waterLeft && boxLeft < waterRight)
 		{
 			/*
 		 	 *	Calculate the volume of the cube when completely submerged in water.
@@ -101,7 +117,7 @@ public class Buoyancy : MonoBehaviour {
 
 			Debug.Log("below Water");
 		}
-		if (top > waterLine && bottom < waterLine)
+		if (top > waterLine && bottom < waterLine && boxRight > waterLeft && boxLeft < waterRight)
 		{
 			/*	
 			 *	calculate the volume of the cube when partially under the water.
@@ -121,6 +137,8 @@ public class Buoyancy : MonoBehaviour {
 
 			Debug.Log("partially submerged");
 		}
+
+		Debug.Log(boxLeft + " " + waterRight);
 		/*
 		 *	Calculating the Net Force
 		 *	^^^^^^^^^^^ ^^^ ^^^ ^^^^^
