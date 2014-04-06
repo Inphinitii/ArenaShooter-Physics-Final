@@ -46,13 +46,18 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Movement.cs" />
-     <Compile Include="Assets\PlayerController.cs" />
-     <Compile Include="Assets\Resources\Utility Scripts\PhysicsAnimationController.cs" />
-     <Compile Include="Assets\Scripts\Buoyancy.cs" />
-     <Compile Include="Assets\Scripts\CameraManager.cs" />
-     <Compile Include="Assets\Scripts\DynamicCamera.cs" />
-     <Compile Include="Assets\Scripts\Spring.cs" />
+     <Compile Include="Assets\Scripts\Camera\DynamicCamera.cs" />
+     <Compile Include="Assets\Scripts\Entities\Movement.cs" />
+     <Compile Include="Assets\Scripts\Entities\PhysicsAnimationController.cs" />
+     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Particles\BaseParticleSystem.cs" />
+     <Compile Include="Assets\Scripts\Particles\Burst.cs" />
+     <Compile Include="Assets\Scripts\Particles\CustomParticleSystem.cs" />
+     <Compile Include="Assets\Scripts\Particles\Emitter.cs" />
+     <Compile Include="Assets\Scripts\Particles\Particle.cs" />
+     <Compile Include="Assets\Scripts\Particles\Trail.cs" />
+     <Compile Include="Assets\Scripts\Physics\Buoyancy.cs" />
+     <Compile Include="Assets\Scripts\Physics\Spring.cs" />
      <Compile Include="Assets\Scripts\TiledImporter\TileLayer.cs" />
      <Compile Include="Assets\Scripts\TiledImporter\TileMap.cs" />
      <Compile Include="Assets\Scripts\TiledImporter\TileSet.cs" />
