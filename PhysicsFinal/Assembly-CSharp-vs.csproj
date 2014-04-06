@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
      <Compile Include="Assets\Scripts\Camera\DynamicCamera.cs" />
      <Compile Include="Assets\Scripts\Entities\Movement.cs" />
      <Compile Include="Assets\Scripts\Entities\PhysicsAnimationController.cs" />
@@ -62,6 +63,7 @@
      <Compile Include="Assets\Scripts\TiledImporter\TileMap.cs" />
      <Compile Include="Assets\Scripts\TiledImporter\TileSet.cs" />
      <None Include="Assets\Resources\Levels\testXML.xml" />
+     <None Include="Assets\Resources\Levels\TestLevel.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Editor\ParticleSystemEditor.cs" />
      <Compile Include="Assets\Editor\TiledImporter.cs" />
      <None Include="Assets\Resources\Levels\testXML.xml" />
+     <None Include="Assets\Resources\Levels\TestLevel.xml" />
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>

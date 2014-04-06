@@ -1,12 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Unity Final\unityfinal\FinalProject\Assets\Scripts\Particles\CustomParticleSystem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Unity Final\unityfinal\FinalProject\Assets\Scripts\TiledImporter\TileMap.cs">
     <Files>
       <File FileName="..\..\..\Unity Final\unityfinal\FinalProject\Assets\Scripts\TiledImporter\TileLayer.cs" Line="1" Column="1" />
       <File FileName="..\..\..\Unity Final\unityfinal\FinalProject\Assets\Scripts\TiledImporter\TileMap.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DynamicCamera.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Particles\CustomParticleSystem.cs" Line="53" Column="31" />
-      <File FileName="..\..\..\Unity Final\unityfinal\FinalProject\Assets\Scripts\Particles\CustomParticleSystem.cs" Line="87" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
