@@ -26,7 +26,9 @@ public class Spring : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-
+		Vector3 _temp = springPoint1.transform.position;
+		_temp.y += 5;
+		springPoint2.transform.position = _temp;
 	}
 	
 	// Update is called once per frame

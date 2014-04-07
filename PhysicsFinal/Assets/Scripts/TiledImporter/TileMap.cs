@@ -19,10 +19,13 @@ public class TileMap {
 	List<Sprite> mySpriteList;
 	Sprite mySprite;
 	TileLayer myTileLayer;
+	
+	public static int pixelPerUnit;
 
 
 	int x;
 	int y;
+	public TileMap(){}
 	public TileMap(TextAsset _text)
 	{
 		myTextAsset = _text;
@@ -211,8 +214,9 @@ public class TileMap {
 			if(index != 0 )
 			{
 				GameObject collisionObject = new GameObject("Collider");
-				collisionObject.AddComponent<BoxCollider2D>();
-				collisionObject.GetComponent<BoxCollider2D>().center = new Vector2(0.5f, 0.5f);
+				collisionObject.AddComponent<BoxCollider>();
+				collisionObject.GetComponent<BoxCollider>().center = new Vector3(0.5f, 0.5f, 0.5f);
+				collisionObject.GetComponent<BoxCollider>().size = new Vector3(1.0f,1.0f,10.0f);
 				collisionObject.transform.parent = rootLayer.transform;
 				collisionObject.transform.position = new Vector3(x,y,0);
 			}

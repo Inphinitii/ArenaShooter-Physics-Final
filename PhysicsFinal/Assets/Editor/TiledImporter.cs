@@ -16,6 +16,7 @@ public class TiledImporter : EditorWindow {
 	{
 		GUILayout.Label ("Tiled Importer", EditorStyles.boldLabel);
 		myTiledXML = (TextAsset)EditorGUILayout.ObjectField(myTiledXML, typeof(TextAsset), false) as TextAsset;
+		TileMap.pixelPerUnit = EditorGUILayout.IntField("Pixels Per Unit", TileMap.pixelPerUnit);
 		if (GUILayout.Button ("Build Map") && myTiledXML != null) 
 		{
 			Build ();
