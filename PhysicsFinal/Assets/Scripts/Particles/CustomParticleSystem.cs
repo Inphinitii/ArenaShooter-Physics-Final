@@ -25,7 +25,13 @@ public class CustomParticleSystem : MonoBehaviour {
 	public bool p_isFading;
 	public bool p_destroyOnFade;
 	public float p_fadeSpeed;
-	
+
+	//Burst Options
+	public bool p_rotateTowardsVelocity;
+	public bool p_arcBurst;
+	public float p_burstArc;
+	public float p_rotationBurstInDegrees;
+
 	//Emitter Options
 	public float p_arcWidth;
 	public float p_rotationInDegrees;
@@ -82,5 +88,16 @@ public class CustomParticleSystem : MonoBehaviour {
 			((Emitter)m_ParticleSystem).Arc = p_arcWidth;
 			((Emitter)m_ParticleSystem).RotationInDegrees = p_rotationInDegrees;
 		}
+
+		if (p_EmitterType == EmitterType.Radial) {
+			((Burst)m_ParticleSystem).m_rotateTowardsVelocity = p_rotateTowardsVelocity;
+			((Burst)m_ParticleSystem).m_arcBurst = p_arcBurst;
+			((Burst)m_ParticleSystem).m_burstArc = p_burstArc;
+			((Burst)m_ParticleSystem).m_rotationInDegrees = p_rotationBurstInDegrees;
+			//	public bool m_arcBurst;
+			//public float m_burstArc;
+			//public float m_rotationInDegrees;
+		}
+
 	}
 }

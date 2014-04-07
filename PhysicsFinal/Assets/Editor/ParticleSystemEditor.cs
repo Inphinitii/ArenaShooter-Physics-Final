@@ -50,6 +50,15 @@ public class ParticleSystemEditor : Editor {
 		if(myFlag == CustomParticleSystem.EmitterType.Radial)
 		{
 			//Radial options
+			myTarget.p_rotateTowardsVelocity = EditorGUILayout.Toggle("Rotate Towards Velocity", myTarget.p_rotateTowardsVelocity);
+			myTarget.p_arcBurst = EditorGUILayout.Toggle("Arc Burst", myTarget.p_arcBurst);
+
+			if(myTarget.p_arcBurst)
+			{
+				myTarget.p_burstArc = EditorGUILayout.FloatField("Burst Arc", myTarget.p_burstArc);
+				myTarget.p_rotationBurstInDegrees = EditorGUILayout.FloatField("Rotation", myTarget.p_rotationBurstInDegrees);
+			}
+
 		}
 		if(myFlag == CustomParticleSystem.EmitterType.Emitter)
 		{

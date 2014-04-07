@@ -26,6 +26,8 @@ public class Spring : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		dist = (springPoint2.position - springPoint1.position);
+		springSize = dist.magnitude;
 		Vector3 _temp = springPoint1.transform.position;
 		_temp.y += 5;
 		springPoint2.transform.position = _temp;
@@ -35,7 +37,6 @@ public class Spring : MonoBehaviour {
 	void Update () 
 	{
 		dist = (springPoint2.position - springPoint1.position);
-
 		mag = Mathf.Sqrt((dist.x * dist.x) + (dist.y * dist.y) + (dist.z * dist.z));
 		Vector3 normalizedDist = dist / mag;
 
