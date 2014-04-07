@@ -48,9 +48,13 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
      <Compile Include="Assets\Scripts\Camera\DynamicCamera.cs" />
+     <Compile Include="Assets\Scripts\CharacterSelection\CharacterSelection.cs" />
+     <Compile Include="Assets\Scripts\CharacterSelection\PlayerSelection.cs" />
+     <Compile Include="Assets\Scripts\CharacterSelection\Portrait.cs" />
      <Compile Include="Assets\Scripts\Entities\Movement.cs" />
      <Compile Include="Assets\Scripts\Entities\PhysicsAnimationController.cs" />
      <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\God.cs" />
      <Compile Include="Assets\Scripts\Particles\BaseParticleSystem.cs" />
      <Compile Include="Assets\Scripts\Particles\Burst.cs" />
      <Compile Include="Assets\Scripts\Particles\CustomParticleSystem.cs" />
