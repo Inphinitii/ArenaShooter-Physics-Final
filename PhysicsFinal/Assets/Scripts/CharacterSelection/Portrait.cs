@@ -26,7 +26,7 @@ public class Portrait : MonoBehaviour {
 	}
 
 	public void CurrentlySelected(){
-		if (p_hovered) {
+		if (p_hovered && !p_selected) {
 				GetComponent<SpriteRenderer> ().sprite = p_portraitHover;
 				iTween.MoveBy (gameObject, iTween.Hash ("y", 0.2f, "easeType", "easeInExpo", "loopType", "pingPong"));
 		} else {

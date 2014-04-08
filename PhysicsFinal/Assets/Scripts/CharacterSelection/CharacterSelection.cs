@@ -4,28 +4,31 @@ using System.Collections;
 public class CharacterSelection : MonoBehaviour {
 	
 	public int p_numberOfCharacters;
+	public int p_numberOfPlayers;
 	public float p_spacingBetweenPortraits;
 	public float startingX;
-
+	public GameObject pressStart;
+	
 	public Portrait[] spriteArray;
-
 	private Portrait[] internalArray;
 	private int currentlySelected;
 	private bool wait;
 	private bool movingRight;
 	
+	
 	public static bool handleInput = false;
-
+	public static int playerNumber;
 	public static int currentPlayer;
 	// Use this for initialization
 	void Start () {
 		currentPlayer = 1; //Player 1 gets first selection
+		playerNumber = p_numberOfPlayers;
 		internalArray = new Portrait[p_numberOfCharacters];
 
 		//Space out the portraits evenly and instantiate them.
 		for (int i = 0; i < p_numberOfCharacters; i++) 
 		{
-			internalArray[i] = Instantiate(spriteArray[i], new Vector3(startingX + (p_spacingBetweenPortraits * i), -0.5f, -5.0f), Quaternion.identity) as Portrait;
+			internalArray[i] = Instantiate(spriteArray[i], new Vector3(startingX + (p_spacingBetweenPortraits * i), -0.2f, -5.0f), Quaternion.identity) as Portrait;
 		}
 
 		//ORDER IN ARRAY OF CHARACTER PORTRAITS 
@@ -48,6 +51,13 @@ public class CharacterSelection : MonoBehaviour {
 			if (!wait)
 				StartCoroutine (HandleInput(0.1f));
 			}
+			
+		if(currentPlayer == p_numberOfPlayers+1){
+			pressStart.SetActive(true);
+			CharacterSelection.handleInput = false;
+		}
+		
+		PressStart();
 	}
 
 	public IEnumerator HandleInput(float _wait) { 
@@ -106,6 +116,10 @@ public class CharacterSelection : MonoBehaviour {
 				currentPlayer++;	
 			}
 		}
+	}
+	
+	void PressStart(){
+	
 	}
 	void SetSelected(int index){
 		for (int i = 0; i < internalArray.Length; i++) 

@@ -53,17 +53,35 @@ public class MainMenuManager : MonoBehaviour {
 	
 	void MainMenuInput(){
 		
-		if(Input.GetButtonDown ("Fire1")){
+		if(Input.GetButtonDown ("Fire1") || Input.GetKeyDown(KeyCode.Space)){
+			ButtonFunction buttonFunction = new ButtonFunction(Foo);
+			switch(m_mainMenuSelection){
+			case 0:
+				buttonFunction = new ButtonFunction(StartButton);
+			break;
+			case 1:
+				buttonFunction = new ButtonFunction(OptionsButton);
+				break;
+			case 2:
+			break;
+			}
+		
+		
+			p_mainMenuButtons[m_mainMenuSelection].ButtonPress(buttonFunction);
 			p_mainMenuButtons[m_mainMenuSelection].m_isPressed = true;
 		}
 		
 		//Move the current selection up/down
-		if (Input.GetAxisRaw ("Vertical") > 0){m_mainMenuSelection++;} 
-		else if (Input.GetAxisRaw ("Vertical") < 0){m_mainMenuSelection--;}
+		if (Input.GetKeyDown (KeyCode.W)){m_mainMenuSelection--;} 
+		else if (Input.GetKeyDown (KeyCode.S)){m_mainMenuSelection++;}
 		
 		//Cycle the menu if you go passed a boundary.
 		if (m_mainMenuSelection >= p_mainMenuButtons.Length) {m_mainMenuSelection = 0;} 
 		else if(m_mainMenuSelection < 0){m_mainMenuSelection = p_mainMenuButtons.Length -1;}
+	}
+	
+	void Foo(){
+		Debug.Log("foo");
 	}
 	
 	void CharacterSelectInput(){
@@ -93,7 +111,14 @@ public class MainMenuManager : MonoBehaviour {
 		}
 	}
 	
-	void SetBool(){
+	//BUTTON FUNCTIONS
+	void StartButton(){
+		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", 0.0f, "easeType", "easeOutQuart", "time", 2.0f));
 		CharacterSelection.handleInput = true;
+	}
+	
+	void OptionsButton(){
+		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", -60.0f, "easeType", "easeOutQuart", "time", 2.0f));
+		
 	}
 }

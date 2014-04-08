@@ -9,11 +9,13 @@ public class PlayerSelection : MonoBehaviour{
 		}
 
 	void Update(){
-		if(CharacterSelection.currentPlayer <= 4)
+		if(CharacterSelection.currentPlayer <= CharacterSelection.playerNumber)
 			//guiText.text = "Player " + CharacterSelection.currentPlayer + " choose";
 			GetComponent<TextMesh>().text = "Player " + CharacterSelection.currentPlayer + " choose";
 		else
+		{
 			GetComponent<TextMesh>().text = "All characters locked in";
 		}
+	}
 
 }
