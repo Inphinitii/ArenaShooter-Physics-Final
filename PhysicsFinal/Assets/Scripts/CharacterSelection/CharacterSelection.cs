@@ -12,19 +12,20 @@ public class CharacterSelection : MonoBehaviour {
 	private Portrait[] internalArray;
 	private int currentlySelected;
 	private bool wait;
+	private bool movingRight;
+	
+	public static bool handleInput = false;
 
 	public static int currentPlayer;
 	// Use this for initialization
 	void Start () {
-		currentPlayer = 1;
-		float x = startingX;
-		float y = -0.5f;
+		currentPlayer = 1; //Player 1 gets first selection
 		internalArray = new Portrait[p_numberOfCharacters];
 
 		//Space out the portraits evenly and instantiate them.
 		for (int i = 0; i < p_numberOfCharacters; i++) 
 		{
-			internalArray[i] = Instantiate(spriteArray[i], new Vector3(x + (p_spacingBetweenPortraits * i), y, -5.0f), Quaternion.identity) as Portrait;
+			internalArray[i] = Instantiate(spriteArray[i], new Vector3(startingX + (p_spacingBetweenPortraits * i), -0.5f, -5.0f), Quaternion.identity) as Portrait;
 		}
 
 		//ORDER IN ARRAY OF CHARACTER PORTRAITS 
@@ -40,68 +41,91 @@ public class CharacterSelection : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		SetSelected (currentlySelected);
-
-		if (!wait)
-			StartCoroutine (HandleInput(0.05f));
+		if(handleInput){
+			SetSelected (currentlySelected);
+			PlayerSelection();
+			
+			if (!wait)
+				StartCoroutine (HandleInput(0.1f));
+			}
 	}
 
 	public IEnumerator HandleInput(float _wait) { 
 		wait = true;
-		yield return new WaitForSeconds (_wait);
-		if (Input.GetAxisRaw ("Horizontal") > 0) {
+		
+		if (Input.GetAxisRaw ("Horizontal") > 0) 
+		{
 			currentlySelected++;
-		} else if (Input.GetAxisRaw ("Horizontal") < 0) {
+			movingRight = true;
+		} 
+		else if (Input.GetAxisRaw ("Horizontal") < 0) 
+		{
 			currentlySelected--;
+			movingRight = false;
 		}
-
-		if (currentPlayer != internalArray.Length + 1) {
-			if (Input.GetKey (KeyCode.Space)) {
-					internalArray [currentlySelected].p_selected = true;
-					if (currentPlayer == 1) {
-							God.player1Character = (God.CharacterEnum)currentlySelected;
-							Debug.Log(God.player1Character);
-					}
-					if (currentPlayer == 2) {
-							God.player2Character = (God.CharacterEnum)currentlySelected;
-							Debug.Log(God.player2Character);
-					}
-					if (currentPlayer == 3) {
-						God.player3Character = (God.CharacterEnum)currentlySelected;
-						Debug.Log(God.player3Character);
-					}
-					if (currentPlayer == 4) {
-						God.player4Character = (God.CharacterEnum)currentlySelected;
-						Debug.Log(God.player4Character);
-					}
-					currentPlayer++;
-
-				
-			}
-		}
+		
+		yield return new WaitForSeconds (_wait);
 
 		/*if (Input.GetKey (KeyCode.KeypadEnter)) {
 			Application.LoadLevel(0);
 		}*/
 		
-		if (currentlySelected >= internalArray.Length) {
+		if (currentlySelected >= internalArray.Length) 
+		{
 			currentlySelected = 0;
-		} else if (currentlySelected < 0) {
+		} 
+		else if(currentlySelected < 0) 
+		{
 			currentlySelected = internalArray.Length -1;
 		}
 
 		wait = false;
 
 	}
-	void SetSelected(int index){
-		for (int i = 0; i < internalArray.Length; i++) {
-			if(i == index) {
-				if(internalArray[i].p_selected)
-					currentlySelected++;
-				else
-						internalArray[i].p_hovered = true;
+	
+	void PlayerSelection(){
+		if (currentPlayer != internalArray.Length + 1) {
+			if (Input.GetButtonDown ("Fire1")) {
+				internalArray [currentlySelected].p_selected = true;
+				
+				switch(currentPlayer)
+				{
+				case 1:
+					God.player1Character = (God.CharacterEnum)currentlySelected;
+					break;
+				case 2:
+					God.player2Character = (God.CharacterEnum)currentlySelected; 
+					break;
+				case 3:
+					God.player3Character = (God.CharacterEnum)currentlySelected;						
+					break;
+				case 4:
+					God.player4Character = (God.CharacterEnum)currentlySelected;
+					break;
+				}
+				currentPlayer++;	
 			}
-			else { internalArray[i].p_hovered = false; }
+		}
+	}
+	void SetSelected(int index){
+		for (int i = 0; i < internalArray.Length; i++) 
+		{
+			if(i == index) 
+			{
+				if(internalArray[i].p_selected)
+				{
+					if(movingRight)
+						currentlySelected++;
+					else
+						currentlySelected--;
+				}
+				else
+					internalArray[i].p_hovered = true;
+			}
+			else 
+			{ 
+				internalArray[i].p_hovered = false; 
+			}
 		}
 	}
 }
