@@ -16,12 +16,13 @@ public class MainMenuManager : MonoBehaviour {
 	private int m_characterMenuSelection = 0;
 	private int m_optionsMenu = 0;
 	
-	private static Vector3 m_mainMenuLocation = new Vector3(-25,0,0);
+	private static Vector3 m_mainMenuLocation = new Vector3(-30,0,0);
 	private static Vector3 m_characterMenuLocation = new Vector3(0,0,0);
-	private static Vector3 m_optionMenuLocation = new Vector3(-25,0,0);
+	private static Vector3 m_optionMenuLocation = new Vector3(-60,0,0);
 	
 	
 	private Menu m_currentMenu = Menu.MainMenu;
+	private Menu m_previousMenu;
 	// Use this for initialization
 	void Start () {
 		p_mainMenuButtons[0].p_reference = this;
@@ -32,23 +33,52 @@ public class MainMenuManager : MonoBehaviour {
 		switch(m_currentMenu)
 		{
 			case Menu.MainMenu:
+			TransitionTo(Menu.MainMenu);
 				MainMenuInput();
 				SetSelected(Menu.MainMenu, m_mainMenuSelection);
 				break;
 			case Menu.CharacterSelect:
+			TransitionTo(Menu.CharacterSelect);
 				CharacterSelectInput();
 				SetSelected(Menu.CharacterSelect, m_characterMenuSelection);
 				break;
 			case Menu.Options:
+			TransitionTo(Menu.Options);
 				OptionsInput();
 				SetSelected(Menu.Options, m_optionsMenu);			
 				break;
 		}
+
+		if (Input.GetKeyDown (KeyCode.Backspace)) {
+			m_currentMenu = m_previousMenu;
+		}
 	}
 	
-	void TransitionTo(){
-		//Translate the camera position using iTween, ease in. x from -25 to 0
-		Debug.Log("wat");
+	void TransitionTo(Menu _menu){
+		switch(_menu)
+		{
+		case Menu.MainMenu:
+			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_mainMenuLocation.x, 
+			                                                  "easeType", "easeOutQuart", 
+			                                                  "time", 2.0f,
+			                                                  "oncompletetarget", gameObject,
+			                                                  "oncomplete" , "SetSelectionInput",
+			                                                  "oncompleteparams", false));
+			break;
+		case Menu.CharacterSelect:
+			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_characterMenuLocation.x, 
+			                                                  "easeType", "easeOutQuart", 
+			                                                  "time", 2.0f,
+			                                                  "oncompletetarget", gameObject,
+			                                                  "oncomplete" , "SetSelectionInput",
+			                                                  "oncompleteparams", true));
+			break;
+		case Menu.Options:
+			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_optionMenuLocation.x,
+			                                                  "easeType", "easeOutQuart", 
+			                                                  "time", 2.0f));  
+			break;
+		}
 	}
 	
 	void MainMenuInput(){
@@ -113,12 +143,17 @@ public class MainMenuManager : MonoBehaviour {
 	
 	//BUTTON FUNCTIONS
 	void StartButton(){
-		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", 0.0f, "easeType", "easeOutQuart", "time", 2.0f));
+		m_previousMenu = m_currentMenu;
+		m_currentMenu = Menu.CharacterSelect;
 		CharacterSelection.handleInput = true;
 	}
 	
 	void OptionsButton(){
-		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", -60.0f, "easeType", "easeOutQuart", "time", 2.0f));
-		
+		m_previousMenu = m_currentMenu;
+		m_currentMenu = Menu.Options;	
+	}
+
+	void SetSelectionInput(bool _input){
+		CharacterSelection.handleInput = _input;
 	}
 }

@@ -95,7 +95,7 @@ public class CharacterSelection : MonoBehaviour {
 	
 	void PlayerSelection(){
 		if (currentPlayer != internalArray.Length + 1) {
-			if (Input.GetButtonDown ("Fire1")) {
+			if (Input.GetButtonDown ("Fire1") || Input.GetKeyDown(KeyCode.Space)) {
 				internalArray [currentlySelected].p_selected = true;
 				
 				switch(currentPlayer)
