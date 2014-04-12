@@ -13,7 +13,7 @@ public class Burst : BaseParticleSystem {
 	
 	//Per-frame update
 	public override void Update(){
-	
+
 	}
 	
 	//Delayed update
