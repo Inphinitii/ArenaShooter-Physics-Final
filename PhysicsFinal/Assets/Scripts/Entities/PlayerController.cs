@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour {
         gun.Aim(new Vector3(RHorizontal, RVertical, 0).normalized);
 
         if (Input.GetAxis("Triggers_"+PlayerNumber) < 0)
-        {
+		{
             gun.Fire();
         }
 

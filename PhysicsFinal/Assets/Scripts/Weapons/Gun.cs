@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour {
 
 	void Start () 
     {
-        
+
 	}
 	
 	// Update is called once per frame
@@ -28,9 +28,9 @@ public class Gun : MonoBehaviour {
     {
 	}
     public void Fire()
-    {
+	{
         if (!Firing)
-        {
+		{
             GameObject bullet = (GameObject)Instantiate(projectile, spawnOrigin.position, spawnOrigin.rotation);
 
             if (Vector2.Dot((Vector2)(player.rigidbody.velocity).normalized, (Vector2)(player.transform.right)) > 0)
