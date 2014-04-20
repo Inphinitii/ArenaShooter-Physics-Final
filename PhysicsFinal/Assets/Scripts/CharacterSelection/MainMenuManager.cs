@@ -54,7 +54,7 @@ public class MainMenuManager : MonoBehaviour {
 				break;
 		}
 
-		if (Input.GetKeyDown (KeyCode.Joystick2Button1)) {
+		if (Input.GetKeyDown (KeyCode.Joystick2Button1) || Input.GetKeyDown(KeyCode.Backspace)) {
 			m_currentMenu = m_previousMenu;
 		}
 	}

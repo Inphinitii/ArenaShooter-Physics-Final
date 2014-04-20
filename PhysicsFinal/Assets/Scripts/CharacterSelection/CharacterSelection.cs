@@ -133,7 +133,7 @@ public class CharacterSelection : MonoBehaviour {
 	void PressStart(){
 		if(start)
 		{
-			if (Input.GetKeyDown(KeyCode.JoystickButton7))
+			if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.Space))
 			{
 				iTween.CameraFadeAdd();
 				iTween.CameraFadeTo(iTween.Hash("amount",1.0,"delay",0.1,"time", 2.5, "onComplete","SwitchToRunning","onCompleteTarget",gameObject));
