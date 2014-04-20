@@ -19,6 +19,10 @@ public class CharacterSelection : MonoBehaviour {
 	public static bool handleInput = false;
 	public static int playerNumber;
 	public static int currentPlayer;
+	
+	private float timer;
+	private float m_keyTimer = 0.1f;
+	private bool m_takeInput;
 	// Use this for initialization
 	void Start () {
 		currentPlayer = 1; //Player 1 gets first selection
@@ -48,15 +52,16 @@ public class CharacterSelection : MonoBehaviour {
 		{
 			SetSelected (currentlySelected);
 			PlayerSelection();
-			
-			if (!wait)
-				StartCoroutine (HandleInput(0.1f));
 				
-			if(currentPlayer == p_numberOfPlayers+1){
+			if(currentPlayer == p_numberOfPlayers + 1){
 				pressStart.SetActive(true);
 				start = true;	
 				handleInput = false;		
-			}		
+			}	
+			else
+			{
+				HandleInput();
+			}	
 		}
 		else
 		{
@@ -64,26 +69,30 @@ public class CharacterSelection : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator HandleInput(float _wait) { 
-		wait = true;
+	void HandleInput() { 
+
+		timer += Time.deltaTime;
+		if(timer > m_keyTimer){
+			m_takeInput = true;
+		}
 		
-		if (Input.GetAxisRaw ("Horizontal") > 0) 
+		if (Input.GetAxis("Hori_Dpad_" + currentPlayer) > 0 && m_takeInput || Input.GetKey (KeyCode.RightArrow) && m_takeInput) 
 		{
 			currentlySelected++;
 			movingRight = true;
+			m_takeInput = false;
+			timer = 0;
+			
 		} 
-		else if (Input.GetAxisRaw ("Horizontal") < 0) 
+		else if (Input.GetAxis("Hori_Dpad_" + currentPlayer) < 0 && m_takeInput || Input.GetKey (KeyCode.LeftArrow) && m_takeInput) 
 		{
 			currentlySelected--;
 			movingRight = false;
+			m_takeInput = false;
+			timer = 0;
 		}
 		
-		yield return new WaitForSeconds (_wait);
 
-		/*if (Input.GetKey (KeyCode.KeypadEnter)) {
-			Application.LoadLevel(0);
-		}*/
-		
 		if (currentlySelected >= internalArray.Length) 
 		{
 			currentlySelected = 0;
@@ -93,13 +102,11 @@ public class CharacterSelection : MonoBehaviour {
 			currentlySelected = internalArray.Length -1;
 		}
 
-		wait = false;
-
 	}
 	
 	void PlayerSelection(){
 		if (currentPlayer != internalArray.Length + 1) {
-			if (Input.GetKeyDown(KeyCode.Space)) {
+			if (Input.GetAxis("A_"+currentPlayer) > 0 || Input.GetKeyDown(KeyCode.Space)) {
 				internalArray [currentlySelected].p_selected = true;
 				
 				switch(currentPlayer)
@@ -117,6 +124,7 @@ public class CharacterSelection : MonoBehaviour {
 					God.player4Character = (God.CharacterEnum)currentlySelected;
 					break;
 				}
+				
 				currentPlayer++;	
 			}
 		}
@@ -125,7 +133,7 @@ public class CharacterSelection : MonoBehaviour {
 	void PressStart(){
 		if(start)
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
+			if (Input.GetKeyDown(KeyCode.JoystickButton7))
 			{
 				iTween.CameraFadeAdd();
 				iTween.CameraFadeTo(iTween.Hash("amount",1.0,"delay",0.1,"time", 2.5, "onComplete","SwitchToRunning","onCompleteTarget",gameObject));

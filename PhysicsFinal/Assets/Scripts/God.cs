@@ -43,19 +43,24 @@ public static class God{
 		
 		switch(m_Player){
 			case CharacterEnum.Blue:
-			return MonoBehaviour.Instantiate(myManager.playerPrefabs[0], spawnLocation , rotation)as GameObject;
+				return MonoBehaviour.Instantiate(myManager.playerPrefabs[0], spawnLocation , rotation)as GameObject;
 			break;
+			
 			case CharacterEnum.Green:
-			return MonoBehaviour.Instantiate(myManager.playerPrefabs[1], spawnLocation , rotation) as GameObject;
+				return MonoBehaviour.Instantiate(myManager.playerPrefabs[1], spawnLocation , rotation) as GameObject;
 			break;
+			
 			case CharacterEnum.Red:
-			return MonoBehaviour.Instantiate(myManager.playerPrefabs[2], spawnLocation , rotation)as GameObject;			
+				return MonoBehaviour.Instantiate(myManager.playerPrefabs[2], spawnLocation , rotation)as GameObject;			
 			break;
+			
 			case CharacterEnum.Yellow:
-			return MonoBehaviour.Instantiate(myManager.playerPrefabs[3], spawnLocation , rotation)as GameObject;			
+				return MonoBehaviour.Instantiate(myManager.playerPrefabs[3], spawnLocation , rotation)as GameObject;			
 			break;
+			
 		default:
 			return new GameObject();
+			break;
 		}
 	}
 	

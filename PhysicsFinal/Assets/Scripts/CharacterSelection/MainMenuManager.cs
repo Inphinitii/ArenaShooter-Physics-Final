@@ -24,6 +24,10 @@ public class MainMenuManager : MonoBehaviour {
 	private Menu m_currentMenu = Menu.MainMenu;
 	private Menu m_previousMenu;
 	
+	private float m_keyTimer = 0.1f;
+	private float timer;
+	private bool m_takeInput;
+	
 	private bool m_dirty;
 	// Use this for initialization
 	void Start () {
@@ -50,7 +54,7 @@ public class MainMenuManager : MonoBehaviour {
 				break;
 		}
 
-		if (Input.GetKeyDown (KeyCode.Backspace)) {
+		if (Input.GetKeyDown (KeyCode.Joystick2Button1)) {
 			m_currentMenu = m_previousMenu;
 		}
 	}
@@ -87,7 +91,12 @@ public class MainMenuManager : MonoBehaviour {
 	
 	void MainMenuInput(){
 		
-		if(Input.GetKeyDown(KeyCode.Space)){
+		timer += Time.deltaTime;
+		if(timer > m_keyTimer){
+			m_takeInput = true;
+		}
+		
+		if(Input.GetKey(KeyCode.Joystick2Button0) || Input.GetKeyDown(KeyCode.Space)){
 			ButtonFunction buttonFunction = new ButtonFunction(Foo);
 			switch(m_mainMenuSelection){
 			case 0:
@@ -102,12 +111,14 @@ public class MainMenuManager : MonoBehaviour {
 		
 		
 			p_mainMenuButtons[m_mainMenuSelection].ButtonPress(buttonFunction);
-			p_mainMenuButtons[m_mainMenuSelection].m_isPressed = true;
+			p_mainMenuButtons[m_mainMenuSelection].m_isPressed = true;			
 		}
 		
 		//Move the current selection up/down
-		if (Input.GetKeyDown (KeyCode.W)){m_mainMenuSelection--;} 
-		else if (Input.GetKeyDown (KeyCode.S)){m_mainMenuSelection++;}
+		if (Input.GetAxis("Vert_Dpad_2") > 0 && m_takeInput || Input.GetKeyDown (KeyCode.UpArrow) && m_takeInput)
+		{m_mainMenuSelection--; m_takeInput = false; timer = 0;} 
+		else if (Input.GetAxis("Vert_Dpad_2") < 0 && m_takeInput || Input.GetKeyDown (KeyCode.DownArrow) && m_takeInput)
+		{m_mainMenuSelection++; m_takeInput = false; timer = 0;}
 		
 		//Cycle the menu if you go passed a boundary.
 		if (m_mainMenuSelection >= p_mainMenuButtons.Length) {m_mainMenuSelection = 0;} 
