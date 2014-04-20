@@ -15,7 +15,7 @@ public class Spring : MonoBehaviour {
 	public float damper;
 
 	//the size of the spring at rest
-	public float springSize;
+	private float springSize;
 	
 	private float mag;
 	private Vector3 dist;
@@ -27,10 +27,14 @@ public class Spring : MonoBehaviour {
 	void Start () 
 	{
 		dist = (springPoint2.position - springPoint1.position);
+
 		springSize = dist.magnitude;
-		Vector3 _temp = springPoint1.transform.position;
+
+		/*Vector3 _temp = springPoint1.transform.position;
+
 		_temp.y += 5;
-		springPoint2.transform.position = _temp;
+
+		springPoint2.transform.position = _temp;*/
 	}
 	
 	// Update is called once per frame
