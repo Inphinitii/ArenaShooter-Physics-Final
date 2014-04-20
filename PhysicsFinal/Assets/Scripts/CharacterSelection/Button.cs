@@ -2,11 +2,13 @@
 using System.Collections;
 
 public delegate void ButtonFunction();
+
 public class Button : MonoBehaviour {
 	
 	public MainMenuManager p_reference;
 	public bool m_isPressed;
 	public bool m_isHovered;
+	public AudioClip SelectSound;
 	
 	public Vector3 originalScale;
     // Use this for initialization
@@ -14,6 +16,7 @@ public class Button : MonoBehaviour {
 		m_isPressed = false;
 		m_isHovered = false;
 		originalScale = transform.localScale;
+		gameObject.AddComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -29,6 +32,7 @@ public class Button : MonoBehaviour {
 	}
 
 	public void ButtonPress(ButtonFunction _delegate){
+		audio.PlayOneShot(SelectSound);
 		_delegate(); //Call the delegates function
 	}
 	

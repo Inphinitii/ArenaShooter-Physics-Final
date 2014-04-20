@@ -29,10 +29,15 @@ public class MainMenuManager : MonoBehaviour {
 	private bool m_takeInput;
 	
 	private bool m_dirty;
+
+	public AudioClip SoundBack;
+	public AudioClip SoundMoveSelection;
+
 	// Use this for initialization
 	void Start () {
 		p_mainMenuButtons[0].p_reference = this;
 		m_dirty = false;
+		gameObject.AddComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -56,6 +61,7 @@ public class MainMenuManager : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Joystick2Button1) || Input.GetKeyDown(KeyCode.Backspace)) {
 			m_currentMenu = m_previousMenu;
+			audio.PlayOneShot(SoundBack);
 		}
 	}
 	
@@ -116,9 +122,9 @@ public class MainMenuManager : MonoBehaviour {
 		
 		//Move the current selection up/down
 		if (Input.GetAxis("Vert_Dpad_2") > 0 && m_takeInput || Input.GetKeyDown (KeyCode.UpArrow) && m_takeInput)
-		{m_mainMenuSelection--; m_takeInput = false; timer = 0;} 
+		{m_mainMenuSelection--; m_takeInput = false; timer = 0; audio.PlayOneShot(SoundMoveSelection);} 
 		else if (Input.GetAxis("Vert_Dpad_2") < 0 && m_takeInput || Input.GetKeyDown (KeyCode.DownArrow) && m_takeInput)
-		{m_mainMenuSelection++; m_takeInput = false; timer = 0;}
+		{m_mainMenuSelection++; m_takeInput = false; timer = 0; audio.PlayOneShot(SoundMoveSelection);}
 		
 		//Cycle the menu if you go passed a boundary.
 		if (m_mainMenuSelection >= p_mainMenuButtons.Length) {m_mainMenuSelection = 0;} 

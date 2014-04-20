@@ -19,6 +19,10 @@ public class CharacterSelection : MonoBehaviour {
 	public static bool handleInput = false;
 	public static int playerNumber;
 	public static int currentPlayer;
+
+	public AudioClip SoundMoveSelection;
+	public AudioClip SoundSelect;
+	public AudioClip SoundStartGame;
 	
 	private float timer;
 	private float m_keyTimer = 0.1f;
@@ -44,6 +48,7 @@ public class CharacterSelection : MonoBehaviour {
 		//Set the first element to be selected
 		currentlySelected = 0;
 		wait = false;
+		gameObject.AddComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -82,7 +87,7 @@ public class CharacterSelection : MonoBehaviour {
 			movingRight = true;
 			m_takeInput = false;
 			timer = 0;
-			
+			audio.PlayOneShot(SoundMoveSelection);
 		} 
 		else if (Input.GetAxis("Hori_Dpad_" + currentPlayer) < 0 && m_takeInput || Input.GetKey (KeyCode.LeftArrow) && m_takeInput) 
 		{
@@ -90,6 +95,7 @@ public class CharacterSelection : MonoBehaviour {
 			movingRight = false;
 			m_takeInput = false;
 			timer = 0;
+			audio.PlayOneShot(SoundMoveSelection);
 		}
 		
 
@@ -125,7 +131,8 @@ public class CharacterSelection : MonoBehaviour {
 					break;
 				}
 				
-				currentPlayer++;	
+				currentPlayer++;
+				audio.PlayOneShot(SoundSelect);
 			}
 		}
 	}
@@ -137,6 +144,7 @@ public class CharacterSelection : MonoBehaviour {
 			{
 				iTween.CameraFadeAdd();
 				iTween.CameraFadeTo(iTween.Hash("amount",1.0,"delay",0.1,"time", 2.5, "onComplete","SwitchToRunning","onCompleteTarget",gameObject));
+				audio.PlayOneShot(SoundStartGame);
 			}
 		}
 	}
