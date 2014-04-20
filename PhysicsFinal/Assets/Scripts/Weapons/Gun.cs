@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -73,7 +72,7 @@ public class Gun : MonoBehaviour {
         {
             modifiers[current_modifiers] = m;
             Component mod = gameObject.AddComponent(m.GetType().ToString());
-            EditorUtility.CopySerialized(m, mod);
+            //EditorUtility.CopySerialized(m, mod);
             ((GunModifier)(mod)).Equip(this);
             current_modifiers++;
             return true;

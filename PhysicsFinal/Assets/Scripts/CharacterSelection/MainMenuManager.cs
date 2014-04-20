@@ -23,9 +23,12 @@ public class MainMenuManager : MonoBehaviour {
 	
 	private Menu m_currentMenu = Menu.MainMenu;
 	private Menu m_previousMenu;
+	
+	private bool m_dirty;
 	// Use this for initialization
 	void Start () {
 		p_mainMenuButtons[0].p_reference = this;
+		m_dirty = false;
 	}
 	
 	// Update is called once per frame
@@ -33,17 +36,15 @@ public class MainMenuManager : MonoBehaviour {
 		switch(m_currentMenu)
 		{
 			case Menu.MainMenu:
-			TransitionTo(Menu.MainMenu);
+				TransitionTo (Menu.MainMenu);
 				MainMenuInput();
 				SetSelected(Menu.MainMenu, m_mainMenuSelection);
 				break;
 			case Menu.CharacterSelect:
-			TransitionTo(Menu.CharacterSelect);
 				CharacterSelectInput();
 				SetSelected(Menu.CharacterSelect, m_characterMenuSelection);
 				break;
 			case Menu.Options:
-			TransitionTo(Menu.Options);
 				OptionsInput();
 				SetSelected(Menu.Options, m_optionsMenu);			
 				break;
@@ -64,6 +65,7 @@ public class MainMenuManager : MonoBehaviour {
 			                                                  "oncompletetarget", gameObject,
 			                                                  "oncomplete" , "SetSelectionInput",
 			                                                  "oncompleteparams", false));
+			//m_dirty = true;
 			break;
 		case Menu.CharacterSelect:
 			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_characterMenuLocation.x, 
@@ -72,18 +74,20 @@ public class MainMenuManager : MonoBehaviour {
 			                                                  "oncompletetarget", gameObject,
 			                                                  "oncomplete" , "SetSelectionInput",
 			                                                  "oncompleteparams", true));
+			//m_dirty = true;
 			break;
 		case Menu.Options:
 			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_optionMenuLocation.x,
 			                                                  "easeType", "easeOutQuart", 
 			                                                  "time", 2.0f));  
+			m_dirty = true;
 			break;
 		}
 	}
 	
 	void MainMenuInput(){
 		
-		if(Input.GetButtonDown ("Fire1") || Input.GetKeyDown(KeyCode.Space)){
+		if(Input.GetKeyDown(KeyCode.Space)){
 			ButtonFunction buttonFunction = new ButtonFunction(Foo);
 			switch(m_mainMenuSelection){
 			case 0:
@@ -145,12 +149,16 @@ public class MainMenuManager : MonoBehaviour {
 	void StartButton(){
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = Menu.CharacterSelect;
-		CharacterSelection.handleInput = true;
+		TransitionTo(Menu.CharacterSelect);
+		//m_dirty = false;
 	}
 	
 	void OptionsButton(){
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = Menu.Options;	
+		TransitionTo(Menu.Options);
+		//m_dirty = false;
+		
 	}
 
 	void SetSelectionInput(bool _input){

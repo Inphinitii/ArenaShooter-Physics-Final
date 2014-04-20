@@ -15,7 +15,7 @@ public class CharacterSelection : MonoBehaviour {
 	private bool wait;
 	private bool movingRight;
 	
-	
+	private bool start;
 	public static bool handleInput = false;
 	public static int playerNumber;
 	public static int currentPlayer;
@@ -24,7 +24,7 @@ public class CharacterSelection : MonoBehaviour {
 		currentPlayer = 1; //Player 1 gets first selection
 		playerNumber = p_numberOfPlayers;
 		internalArray = new Portrait[p_numberOfCharacters];
-
+		start = false;
 		//Space out the portraits evenly and instantiate them.
 		for (int i = 0; i < p_numberOfCharacters; i++) 
 		{
@@ -44,20 +44,24 @@ public class CharacterSelection : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(handleInput){
+		if(handleInput)
+		{
 			SetSelected (currentlySelected);
 			PlayerSelection();
 			
 			if (!wait)
 				StartCoroutine (HandleInput(0.1f));
-			}
-			
-		if(currentPlayer == p_numberOfPlayers+1){
-			pressStart.SetActive(true);
-			CharacterSelection.handleInput = false;
+				
+			if(currentPlayer == p_numberOfPlayers+1){
+				pressStart.SetActive(true);
+				start = true;	
+				handleInput = false;		
+			}		
 		}
-		
-		PressStart();
+		else
+		{
+			PressStart();
+		}
 	}
 
 	public IEnumerator HandleInput(float _wait) { 
@@ -95,7 +99,7 @@ public class CharacterSelection : MonoBehaviour {
 	
 	void PlayerSelection(){
 		if (currentPlayer != internalArray.Length + 1) {
-			if (Input.GetButtonDown ("Fire1") || Input.GetKeyDown(KeyCode.Space)) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
 				internalArray [currentlySelected].p_selected = true;
 				
 				switch(currentPlayer)
@@ -119,7 +123,18 @@ public class CharacterSelection : MonoBehaviour {
 	}
 	
 	void PressStart(){
+		if(start)
+		{
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				iTween.CameraFadeAdd();
+				iTween.CameraFadeTo(iTween.Hash("amount",1.0,"delay",0.1,"time", 2.5, "onComplete","SwitchToRunning","onCompleteTarget",gameObject));
+			}
+		}
+	}
 	
+	void SwitchToRunning(){
+		GameManager.SwitchState(GameManager.GameState.Running);
 	}
 	void SetSelected(int index){
 		for (int i = 0; i < internalArray.Length; i++) 
