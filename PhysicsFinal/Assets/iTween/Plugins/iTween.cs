@@ -6416,7 +6416,7 @@ public class iTween : MonoBehaviour{
 	public static void Stop(GameObject target){
 		Component[] tweens = target.GetComponents<iTween>();
 		foreach (iTween item in tweens){
-			item.Dispose();
+				item.Dispose();
 		}
 	}
 	

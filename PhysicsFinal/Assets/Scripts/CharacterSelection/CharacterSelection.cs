@@ -12,7 +12,6 @@ public class CharacterSelection : MonoBehaviour {
 	public Portrait[] spriteArray;
 	private Portrait[] internalArray;
 	private int currentlySelected;
-	private bool wait;
 	private bool movingRight;
 	
 	private bool start;
@@ -47,7 +46,6 @@ public class CharacterSelection : MonoBehaviour {
 
 		//Set the first element to be selected
 		currentlySelected = 0;
-		wait = false;
 		gameObject.AddComponent<AudioSource>();
 	}
 	

@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour{
 	}
 	
 	void Update () {
+		if(m_Introduction && Input.GetKeyDown (KeyCode.JoystickButton7)){
+			EndAnimation();
+		}
 	}
 	
 	void OnGUI() { 
@@ -81,7 +84,9 @@ public class GameManager : MonoBehaviour{
 	void StartAnimation(){
 		Time.timeScale = 0;
 		
-		Camera.main.GetComponent<DynamicCamera>().enabled = false;
+		DynamicCamera myRef = Camera.main.GetComponent<DynamicCamera>();
+		myRef.enabled = false;
+		
 		Camera.main.transform.position = new Vector3(-3,11.5f,-20);
 		Camera.main.orthographicSize = 16.5f;
 		
@@ -211,13 +216,23 @@ public class GameManager : MonoBehaviour{
 			                            
 		iTween.CameraFadeTo(iTween.Hash("amount",0.0,
 		                                "time", 0.1f,
-		                                "delay", 0.1f));
+		                                "delay", 0.1f,
+		                                "oncomplete", "iTweenStop",
+		                                "oncompletetarget", gameObject));
 			   
 	}
+	
+	void iTweenStop(){
+		iTween.Stop();
+	}
+	
 	void SpawnCharacters(){
 		m_playerRefs[0] = God.Spawn(God.player1Character) as GameObject;
 		m_playerRefs[1] = God.Spawn(God.player2Character) as GameObject;
 		Camera.main.GetComponent<DynamicCamera>().ObjectsToTrack = m_playerRefs;
+        
+        m_playerRefs[0].GetComponent<PlayerController>().PlayerNumber = 1;
+        m_playerRefs[1].GetComponent<PlayerController>().PlayerNumber = 2;
 		
 	}
 	

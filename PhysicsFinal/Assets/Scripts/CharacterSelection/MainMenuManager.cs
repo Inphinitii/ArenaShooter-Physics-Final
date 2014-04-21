@@ -27,8 +27,6 @@ public class MainMenuManager : MonoBehaviour {
 	private float m_keyTimer = 0.1f;
 	private float timer;
 	private bool m_takeInput;
-	
-	private bool m_dirty;
 
 	public AudioClip SoundBack;
 	public AudioClip SoundMoveSelection;
@@ -36,7 +34,6 @@ public class MainMenuManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		p_mainMenuButtons[0].p_reference = this;
-		m_dirty = false;
 		gameObject.AddComponent<AudioSource>();
 	}
 	
@@ -59,9 +56,9 @@ public class MainMenuManager : MonoBehaviour {
 				break;
 		}
 
-		if (Input.GetKeyDown (KeyCode.Joystick2Button1) || Input.GetKeyDown(KeyCode.Backspace)) {
-			m_currentMenu = m_previousMenu;
+		if (Input.GetKeyDown (KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.Backspace)) {
 			audio.PlayOneShot(SoundBack);
+			m_currentMenu = m_previousMenu;
 		}
 	}
 	
@@ -90,7 +87,6 @@ public class MainMenuManager : MonoBehaviour {
 			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", m_optionMenuLocation.x,
 			                                                  "easeType", "easeOutQuart", 
 			                                                  "time", 2.0f));  
-			m_dirty = true;
 			break;
 		}
 	}
@@ -102,7 +98,7 @@ public class MainMenuManager : MonoBehaviour {
 			m_takeInput = true;
 		}
 		
-		if(Input.GetKey(KeyCode.Joystick2Button0) || Input.GetKeyDown(KeyCode.Space)){
+		if(Input.GetKey(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.Space)){
 			ButtonFunction buttonFunction = new ButtonFunction(Foo);
 			switch(m_mainMenuSelection){
 			case 0:
@@ -121,9 +117,9 @@ public class MainMenuManager : MonoBehaviour {
 		}
 		
 		//Move the current selection up/down
-		if (Input.GetAxis("Vert_Dpad_2") > 0 && m_takeInput || Input.GetKeyDown (KeyCode.UpArrow) && m_takeInput)
+		if (Input.GetAxis("Vert_Dpad_1") > 0 && m_takeInput || Input.GetKeyDown (KeyCode.UpArrow) && m_takeInput)
 		{m_mainMenuSelection--; m_takeInput = false; timer = 0; audio.PlayOneShot(SoundMoveSelection);} 
-		else if (Input.GetAxis("Vert_Dpad_2") < 0 && m_takeInput || Input.GetKeyDown (KeyCode.DownArrow) && m_takeInput)
+		else if (Input.GetAxis("Vert_Dpad_1") < 0 && m_takeInput || Input.GetKeyDown (KeyCode.DownArrow) && m_takeInput)
 		{m_mainMenuSelection++; m_takeInput = false; timer = 0; audio.PlayOneShot(SoundMoveSelection);}
 		
 		//Cycle the menu if you go passed a boundary.

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-
+#pragma warning disable 0219 
+//Disable the warning message
 public class TiledImporter : EditorWindow {
 
 	TextAsset myTiledXML;
-	TileMap myTileMap;
 	[MenuItem("Window/Tiled Importer")]
 	public static void ShowWindow()
 	{
@@ -26,6 +26,6 @@ public class TiledImporter : EditorWindow {
 
 	void Build()
 	{
-		myTileMap = new TileMap (myTiledXML);
+		TileMap myTileMap = new TileMap (myTiledXML);
 	}
 }
