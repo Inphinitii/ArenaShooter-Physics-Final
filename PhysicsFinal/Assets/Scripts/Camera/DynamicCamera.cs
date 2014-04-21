@@ -10,7 +10,6 @@ public class DynamicCamera : MonoBehaviour {
     //Camera Control Variables
     public float CameraSmoothing = 8;
     public float StartingDepth;
-	float Depth = -10;
 	float DestinationDepth = -10;
     bool WatchInterest = false;
     Quaternion previousRotation;
@@ -31,8 +30,6 @@ public class DynamicCamera : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cameraReference = Camera.main;
-		cameraHeight = cameraReference.orthographicSize;
-		cameraWidth = cameraHeight * cameraReference.aspect * 2.0f;
 		
 		RecalculateBounds();
 		print(WorldBounds.ToString());
@@ -54,18 +51,27 @@ public class DynamicCamera : MonoBehaviour {
 		RecalculateBounds();
 		CalculateDepthChange();
 
-		Depth = Mathf.Lerp(Depth,DestinationDepth,Time.deltaTime * CameraSmoothing);
-		transform.position = Vector3.Lerp(transform.position,new Vector3(MinVector.x + (MaxVector.x - MinVector.x)/2,MinVector.y + (MaxVector.y - MinVector.y)/2,Depth),Time.deltaTime * CameraSmoothing);
+		cameraReference.orthographicSize = Mathf.Lerp(cameraReference.orthographicSize, DestinationDepth, Time.deltaTime * CameraSmoothing);
+		
+		transform.position = Vector3.Lerp(transform.position,new Vector3(MinVector.x + (MaxVector.x - MinVector.x)/2,(MinVector.y + (MaxVector.y - MinVector.y)/2) - 1.5f, transform.position.z),Time.deltaTime * CameraSmoothing);
         transform.rotation = Quaternion.Slerp(transform.rotation,DesiredRotation,Time.deltaTime * CameraSmoothing);
         
         //Clamp to level
-		transform.position = new Vector3( Mathf.Clamp(transform.position.x, MIN_BOUND_X + cameraWidth/2, MAX_BOUND_X - cameraWidth/2),
-		                                  Mathf.Clamp(transform.position.y, MAX_BOUND_Y + cameraHeight/2, MIN_BOUND_Y - cameraHeight/2),
-		                                  			  transform.position.z);
+		cameraHeight = cameraReference.orthographicSize;
+		cameraWidth = cameraHeight * cameraReference.aspect * 2.0f;
+		transform.position = new Vector3(Mathf.Clamp(transform.position.x, MIN_BOUND_X + cameraWidth/2, MAX_BOUND_X - cameraWidth/2),
+		                                 Mathf.Clamp(transform.position.y, MAX_BOUND_Y + cameraHeight/2, MIN_BOUND_Y - cameraHeight/2),
+		                                 transform.position.z);
 	}
 	
 	void CalculateDepthChange(){
-		DestinationDepth = StartingDepth - (Vector3.Magnitude(MaxVector - MinVector) / 2) - 2;
+		DestinationDepth = StartingDepth + (Vector3.Magnitude(MaxVector - MinVector) / 4) - 2;
+		if(DestinationDepth < 8){
+			DestinationDepth = 8;
+		}
+		else if(DestinationDepth > 13.5){
+			DestinationDepth = 13.5f;
+		}
 	}
 	
 	void RecalculateBounds()
