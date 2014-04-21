@@ -53,13 +53,16 @@ public class Gun : MonoBehaviour {
     {
         Vector3 dir = direction.normalized;
         float angle = Mathf.Atan2(dir.y, dir.x);
+        
         Quaternion finalRotation = Quaternion.AngleAxis((-angle / Mathf.PI) * 180, Vector3.forward);
+        
         if (player.transform.right != Vector3.right)
         {
             if (angle == 0)
             {
                 angle = Mathf.PI;
             }
+            
             finalRotation = Quaternion.AngleAxis(((-angle - Mathf.PI) / Mathf.PI) * 180, Vector3.forward);
             finalRotation *= Quaternion.AngleAxis(180,Vector3.right);
             finalRotation *= Quaternion.AngleAxis(180, Vector3.forward);

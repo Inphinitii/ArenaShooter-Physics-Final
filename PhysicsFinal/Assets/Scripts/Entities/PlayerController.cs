@@ -21,10 +21,11 @@ public class PlayerController : MonoBehaviour {
 		{
 			Jumping = true;
 		}
+		
         float RHorizontal = Input.GetAxis("RHorizontal_" + PlayerNumber);
         float RVertical = Input.GetAxis("RVertical_" + PlayerNumber);
 
-        gun.Aim(new Vector3(RHorizontal, RVertical, 0).normalized);
+        gun.Aim(new Vector3(RHorizontal, RVertical, 0));
 
         if (Input.GetAxis("Triggers_"+PlayerNumber) < 0)
 		{

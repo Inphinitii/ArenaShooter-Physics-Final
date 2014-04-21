@@ -87,7 +87,8 @@ public class Buoyancy : MonoBehaviour {
 		
 		if(boxes.Count > 0){
 			for(int i = 0; i < boxes.Count; i++){
-				boxSize.Add(boxes[i].transform.lossyScale);
+				if(boxes[i] != null)
+					boxSize.Add(boxes[i].transform.lossyScale);
 			}
 			
 			for(int k = 0; k < boxSize.Count; k++){
@@ -107,7 +108,7 @@ public class Buoyancy : MonoBehaviour {
 					//when the cube is above the water no buoyant force will act upon the cube
 					buoyantForce = new Vector3(0, 0, 0);
 					//damperforce to simulate air resistance
-					appliedDamper = damper / 1.2f;
+					//appliedDamper = damper / 1.2f;
 					Debug.Log("above Water");
 				}
 				if (top < waterLine && boxRight > waterLeft && boxLeft < waterRight)
@@ -164,7 +165,7 @@ public class Buoyancy : MonoBehaviour {
 				//finaly get the net force using the buoyant force and damper force
 				netForce += buoyantForce + damperForce;
 		
-				acceleration = netForce / boxes[j].rigidbody.mass;
+				acceleration = netForce / (boxes[j].rigidbody.mass * 100);
 				
 				boxes[j].rigidbody.velocity += acceleration * Time.deltaTime;
 		
