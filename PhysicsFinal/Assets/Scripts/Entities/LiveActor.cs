@@ -6,10 +6,12 @@ public class LiveActor : MonoBehaviour {
 	
 	public GameObject m_deathParticles;
 	private int m_playerHealth;
+	private int m_playerLives;
 	private bool m_playerAlive;
 	// Use this for initialization
 	void Start () {
 		m_playerHealth = 100;
+		m_playerLives = 0;
 		m_playerAlive = true;
 	}
 	
@@ -38,13 +40,21 @@ public class LiveActor : MonoBehaviour {
 	void CleanUp(){
 		gameObject.SetActive(false);
 		Instantiate(m_deathParticles, transform.position, Quaternion.identity);
-		Respawn();
+		
+		if(m_playerLives > 0)
+			Respawn();
+		else{
+			God.currentPlayers[GetComponent<PlayerController>().PlayerNumber-1] = null;
+			Destroy (this.gameObject);
+		}
 	}
 	
 	public void Respawn(){
 		PlayerAlive = true;
 		m_playerHealth = 100;
+		m_playerLives--;
 		transform.position = God.spawnLocations[Random.Range(0,5)];
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
 		gameObject.SetActive(true);
 	}
 	public bool PlayerAlive{

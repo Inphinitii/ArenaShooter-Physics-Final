@@ -49,6 +49,7 @@
      <Compile Include="Assets\Editor\ParticleSystemEditor.cs" />
      <Compile Include="Assets\Editor\TiledImporter.cs" />
      <None Include="Assets\Resources\Levels\testXML.xml" />
+     <None Include="Assets\Resources\Levels\xmlTest.xml" />
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\Resources\Levels\TestLevel.xml" />
  <Reference Include="UnityEditor.Graphs">

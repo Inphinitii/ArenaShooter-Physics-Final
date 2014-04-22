@@ -26,6 +26,7 @@ public static class God{
 	
 	
 	public static int playerCount = 0;
+	public static GameObject[] currentPlayers = new GameObject[2];
 	
 	
 	public static GameObject Spawn(CharacterEnum m_Player){

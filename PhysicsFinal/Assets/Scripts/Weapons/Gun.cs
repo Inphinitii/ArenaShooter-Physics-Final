@@ -37,13 +37,8 @@ public class Gun : MonoBehaviour {
         if (!Firing)
 		{
             GameObject bullet = (GameObject)Instantiate(projectile, spawnOrigin.position, spawnOrigin.rotation);
-            
-            
-            Collider[] mycolliders = player.GetComponents<Collider>();
-            foreach(Collider obj in mycolliders)
-            {
-           		Physics.IgnoreCollision(obj, bullet.collider);
-            }
+
+           	Physics.IgnoreCollision(player.collider, bullet.collider);
 
             if (Vector2.Dot((Vector2)(player.rigidbody.velocity).normalized, (Vector2)(player.transform.right)) > 0)
             {
@@ -51,7 +46,12 @@ public class Gun : MonoBehaviour {
             }
             
             bullet.rigidbody.AddForce(spawnOrigin.right * FireForce, ForceMode.Impulse);
-            player.rigidbody.AddForce(-spawnOrigin.right * FireForce * bullet.rigidbody.mass * RecoilDampening,ForceMode.Impulse);
+            
+            if(!player.GetComponent<Movement>().Grounded)
+           	 	player.rigidbody.AddForce(-spawnOrigin.right * FireForce  * bullet.rigidbody.mass * RecoilDampening,ForceMode.Impulse);
+           	else
+           	 	player.rigidbody.AddForce(-spawnOrigin.right * FireForce * 5.0f * bullet.rigidbody.mass * RecoilDampening / 2,ForceMode.Impulse);
+           		
             Firing = true;
             Invoke("CoolDown", FireRate);
         }

@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\Utility\DestroyTimer.cs" />
      <Compile Include="Assets\Scripts\Weapons\BulletScripts\Bouncer.cs" />
      <Compile Include="Assets\Scripts\Weapons\BulletScripts\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Weapons\BulletScripts\BulletExplosion.cs" />
      <Compile Include="Assets\Scripts\Weapons\BulletScripts\DestroyOnHit.cs" />
      <Compile Include="Assets\Scripts\Weapons\Gun.cs" />
      <Compile Include="Assets\Scripts\Weapons\GunModifier.cs" />
@@ -85,6 +86,7 @@
      <Compile Include="Assets\iTween\Sample\RotateSample.cs" />
      <Compile Include="Assets\iTween\Sample\SampleInfo.cs" />
      <None Include="Assets\Resources\Levels\testXML.xml" />
+     <None Include="Assets\Resources\Levels\xmlTest.xml" />
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\Resources\Levels\TestLevel.xml" />
   </ItemGroup>

@@ -12,16 +12,16 @@ public class MainMenuManager : MonoBehaviour {
 	public Button[] p_mainMenuButtons;
 	public Button[] p_optionMenuButtons;
 	
-	private int m_mainMenuSelection = 0;
-	private int m_characterMenuSelection = 0;
-	private int m_optionsMenu = 0;
+	private int m_mainMenuSelection;
+	private int m_characterMenuSelection;
+	private int m_optionsMenu;
 	
 	private static Vector3 m_mainMenuLocation = new Vector3(-30,0,0);
 	private static Vector3 m_characterMenuLocation = new Vector3(0,0,0);
 	private static Vector3 m_optionMenuLocation = new Vector3(-60,0,0);
 	
 	
-	private Menu m_currentMenu = Menu.MainMenu;
+	private Menu m_currentMenu;
 	private Menu m_previousMenu;
 	
 	private float m_keyTimer = 0.1f;
@@ -35,6 +35,11 @@ public class MainMenuManager : MonoBehaviour {
 	void Start () {
 		p_mainMenuButtons[0].p_reference = this;
 		gameObject.AddComponent<AudioSource>();
+		
+		m_mainMenuSelection = 0;
+		m_characterMenuSelection = 0;
+		m_optionsMenu = 0;
+		m_currentMenu = Menu.MainMenu;
 	}
 	
 	// Update is called once per frame

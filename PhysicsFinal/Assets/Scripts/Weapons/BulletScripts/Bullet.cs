@@ -4,6 +4,8 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 
 	public int m_bulletDamage = 10;
+	
+	public GameObject m_bulletExplosion;
 	public GameObject m_particleExplosion;
 	// Use this for initialization
 	void Start () {
@@ -16,6 +18,7 @@ public class Bullet : MonoBehaviour {
 	
 	void OnCollisionEnter(){
 		Instantiate(m_particleExplosion, transform.position, transform.rotation);
+		//Instantiate(m_bulletExplosion, transform.position, transform.rotation);
 		Destroy(gameObject);
 	}
 	

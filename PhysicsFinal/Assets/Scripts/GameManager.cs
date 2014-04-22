@@ -20,9 +20,11 @@ public class GameManager : MonoBehaviour{
 	
 	private bool onStart;
 	private bool m_Introduction;
+	private bool m_gameInProgress;
 	private GUIText m_PlayerText;
 	
 	private GameObject[] m_playerRefs;
+	private GameObject[] m_playersInGame;
 	
 	
 	void Start () {
@@ -43,8 +45,47 @@ public class GameManager : MonoBehaviour{
 		if(m_Introduction && Input.GetKeyDown (KeyCode.JoystickButton7)){
 			EndAnimation();
 		}
+		
+		if(m_currentGameState == GameState.Running){
+			if(m_gameInProgress){
+				m_playersInGame = God.currentPlayers;
+				
+				for(int i = 0; i < m_playersInGame.Length;i++){
+					if(m_playersInGame[i] == null){
+						if(i == 0){
+							Debug.Log("Player 2 Win");
+							m_PlayerText.enabled = true;
+							m_PlayerText.text = "Player 2 Wins";
+							m_PlayerText.transform.position = new Vector3(0.5f, 0.5f, 1);
+							
+							if(Input.GetKeyDown(KeyCode.JoystickButton7)){
+								ScreenFlash ();
+								Invoke("Reset", 0.1f);
+							}
+							
+						}
+						else
+						{
+							Debug.Log("Player 1 Win");
+							m_PlayerText.enabled = true;
+							m_PlayerText.text = "Player 1 Wins";
+							m_PlayerText.transform.position = new Vector3(0.5f, 0.5f, 1);
+							if(Input.GetKeyDown(KeyCode.JoystickButton7)){
+								ScreenFlash ();
+								Invoke("Reset", 0.1f);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
+	void Reset(){
+		Application.LoadLevel(0);
+		Destroy (this.gameObject);
+		God.playerCount = 0;
+	}
 	void OnGUI() { 
 		if (m_currentGameState == GameState.MainMenu) 
 		{
@@ -53,6 +94,7 @@ public class GameManager : MonoBehaviour{
 		if(m_currentGameState == GameState.Running)
 		{
 			if(onStart){
+				m_gameInProgress = true;
 				StartAnimation();
 				SpawnCharacters();
 				m_PlayerText = Instantiate(m_guiText, new Vector3(-0.5f,0.5f,0), Quaternion.identity) as GUIText;
@@ -200,6 +242,7 @@ public class GameManager : MonoBehaviour{
 	
 	void EndAnimation(){
 		ScreenFlash ();
+		m_PlayerText.enabled = false;
 		Camera.main.GetComponent<DynamicCamera>().enabled = true;
 		Camera.main.transform.position = new Vector3(-3,11.5f,-20);
 		Camera.main.orthographicSize = 16.5f;
@@ -225,8 +268,8 @@ public class GameManager : MonoBehaviour{
 	}
 	
 	void SpawnCharacters(){
-		m_playerRefs[0] = God.Spawn(God.player1Character) as GameObject;
-		m_playerRefs[1] = God.Spawn(God.player2Character) as GameObject;
+		God.currentPlayers[0] = m_playerRefs[0] = God.Spawn(God.player1Character) as GameObject;
+		God.currentPlayers[1] = m_playerRefs[1] = God.Spawn(God.player2Character) as GameObject;
 		Camera.main.GetComponent<DynamicCamera>().ObjectsToTrack = m_playerRefs;
         
         m_playerRefs[0].GetComponent<PlayerController>().PlayerNumber = 1;

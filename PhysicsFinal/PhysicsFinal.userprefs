@@ -1,8 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\iTween\Plugins\iTween.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Weapons\BulletScripts\Bullet.cs">
     <Files>
       <File FileName="Assets\iTween\Plugins\iTween.cs" Line="6417" Column="1" />
+      <File FileName="Assets\Scripts\Camera\DynamicCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\TiledImporter\TileMap.cs" Line="146" Column="48" />
+      <File FileName="Assets\Scripts\Weapons\BulletScripts\Bullet.cs" Line="19" Column="76" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
