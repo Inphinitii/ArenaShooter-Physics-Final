@@ -158,14 +158,44 @@ public class Buoyancy : MonoBehaviour {
 				 */
 				
 				//reduce the box velocity by the damper, this is the damperForce
-				damperForce = -appliedDamper * boxes[j].rigidbody.mass * (boxes[j].rigidbody.velocity);
+                if (boxes[j].rigidbody != null)
+                {
+                    damperForce = -appliedDamper * boxes[j].rigidbody.mass * (boxes[j].rigidbody.velocity);
+                }
+                else
+                {
+                    if (boxes[j].parent.rigidbody != null)
+                    {
+                        damperForce = -appliedDamper * boxes[j].parent.rigidbody.mass * (boxes[j].parent.rigidbody.velocity);
+                    }
+                }
 				
 				//finaly get the net force using the buoyant force and damper force
 				netForce += buoyantForce + damperForce;
-		
-				acceleration = netForce / (boxes[j].rigidbody.mass * 100);
-				
-				boxes[j].rigidbody.velocity += acceleration * Time.deltaTime;
+
+                if (boxes[j].rigidbody != null)
+                {
+                    acceleration = netForce / (boxes[j].rigidbody.mass * 100);
+                }
+                else
+                {
+                    if (boxes[j].parent.rigidbody != null)
+                    {
+                        acceleration = netForce / (boxes[j].parent.rigidbody.mass * 100);
+                    }
+                }
+
+                if (boxes[j].rigidbody != null)
+                {
+                    boxes[j].rigidbody.velocity += acceleration * Time.deltaTime;
+                }
+                else
+                {
+                    if (boxes[j].parent.rigidbody != null)
+                    {
+                        boxes[j].parent.rigidbody.velocity += acceleration * Time.deltaTime;
+                    }
+                }
 		
 				netForce = new Vector3(0,0,0);
 			}
