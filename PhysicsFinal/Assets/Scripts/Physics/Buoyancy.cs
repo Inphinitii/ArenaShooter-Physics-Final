@@ -98,6 +98,8 @@ public class Buoyancy : MonoBehaviour {
 			//For each box, get their properties.
 			
 			for(int j = 0; j < boxes.Count; j++){
+			
+				if(boxes[j] != null){
 				bottom = boxes[j].transform.position.y - (0.5f * boxSize[j].y);
 				top = boxes[j].transform.position.y + (0.5f * boxSize[j].y);
 				boxLeft = boxes[j].transform.position.x - (0.5f * boxSize[j].x);
@@ -170,6 +172,7 @@ public class Buoyancy : MonoBehaviour {
 				boxes[j].rigidbody.velocity += acceleration * Time.deltaTime;
 		
 				netForce = new Vector3(0,0,0);
+			}
 			}
 		}
 		

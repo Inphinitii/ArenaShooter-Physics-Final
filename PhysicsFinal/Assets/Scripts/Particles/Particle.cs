@@ -22,14 +22,13 @@ public class Particle : MonoBehaviour {
 	void Start () {
 		Alive = true;
 		ExistingParticles++;
+		rigidbody2D.AddForce(Direction * Speed);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(Alive)
-		{
-			rigidbody2D.velocity = Direction * Speed;
-			
+		{			
 			if(IsFading)
 				FadeAway();
 				

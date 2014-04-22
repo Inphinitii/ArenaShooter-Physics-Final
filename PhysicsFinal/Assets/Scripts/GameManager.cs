@@ -84,9 +84,7 @@ public class GameManager : MonoBehaviour{
 	void StartAnimation(){
 		Time.timeScale = 0;
 		
-		DynamicCamera myRef = Camera.main.GetComponent<DynamicCamera>();
-		myRef.enabled = false;
-		
+		Camera.main.GetComponent<DynamicCamera>().enabled = false;
 		Camera.main.transform.position = new Vector3(-3,11.5f,-20);
 		Camera.main.orthographicSize = 16.5f;
 		

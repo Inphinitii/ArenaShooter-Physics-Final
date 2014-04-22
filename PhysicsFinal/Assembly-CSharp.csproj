@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\CharacterSelection\PlayerSelection.cs" />
      <Compile Include="Assets\Scripts\CharacterSelection\Portrait.cs" />
      <Compile Include="Assets\Scripts\CharacterSelection\PressStart.cs" />
+     <Compile Include="Assets\Scripts\Entities\LiveActor.cs" />
      <Compile Include="Assets\Scripts\Entities\Movement.cs" />
      <Compile Include="Assets\Scripts\Entities\PhysicsAnimationController.cs" />
      <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />

@@ -60,17 +60,17 @@ public class DynamicCamera : MonoBehaviour {
 		cameraHeight = cameraReference.orthographicSize;
 		cameraWidth = cameraHeight * cameraReference.aspect * 2.0f;
 		transform.position = new Vector3(Mathf.Clamp(transform.position.x, MIN_BOUND_X + cameraWidth/2, MAX_BOUND_X - cameraWidth/2),
-		                                 Mathf.Clamp(transform.position.y, MAX_BOUND_Y + cameraHeight/2, MIN_BOUND_Y - cameraHeight/2),
-		                                 transform.position.z);
+		                              Mathf.Clamp(transform.position.y, MAX_BOUND_Y + cameraHeight/2, MIN_BOUND_Y - cameraHeight/2),
+		                               transform.position.z);
 	}
 	
 	void CalculateDepthChange(){
-		DestinationDepth = StartingDepth + (Vector3.Magnitude(MaxVector - MinVector) / 4) - 2;
-		if(DestinationDepth < 8){
-			DestinationDepth = 8;
+		DestinationDepth = StartingDepth + (Vector3.Magnitude(MaxVector - MinVector) / 2) - 2;
+		if(DestinationDepth < 10){
+			DestinationDepth = 10;
 		}
-		else if(DestinationDepth > 13.5){
-			DestinationDepth = 13.5f;
+		else if(DestinationDepth > 27){
+			DestinationDepth = 27;
 		}
 	}
 	
@@ -88,18 +88,23 @@ public class DynamicCamera : MonoBehaviour {
 
 		for(int i = 0;i<ObjectsToTrack.Length;i++)
 		{
-		
-			if(ObjectsToTrack[i].collider.bounds.min.x < minX){
-				minX = ObjectsToTrack[i].collider.bounds.min.x;
+			if(ObjectsToTrack[i] != null){
+				if(ObjectsToTrack[i].collider.bounds.min.x < minX){
+					minX = ObjectsToTrack[i].collider.bounds.min.x;
+				}
+				if(ObjectsToTrack[i].collider.bounds.max.x > maxX){
+					maxX = ObjectsToTrack[i].collider.bounds.max.x;
+				}
+				if(ObjectsToTrack[i].collider.bounds.min.y < minY){
+					minY = ObjectsToTrack[i].collider.bounds.min.y;
+				}
+				if(ObjectsToTrack[i].collider.bounds.max.y > maxY){
+					maxY = ObjectsToTrack[i].collider.bounds.max.y;
+				}
 			}
-			if(ObjectsToTrack[i].collider.bounds.max.x > maxX){
-				maxX = ObjectsToTrack[i].collider.bounds.max.x;
-			}
-			if(ObjectsToTrack[i].collider.bounds.min.y < minY){
-				minY = ObjectsToTrack[i].collider.bounds.min.y;
-			}
-			if(ObjectsToTrack[i].collider.bounds.max.y > maxY){
-				maxY = ObjectsToTrack[i].collider.bounds.max.y;
+			else
+			{
+				ObjectsToTrack[i] = null;
 			}
 		}
 
@@ -107,10 +112,10 @@ public class DynamicCamera : MonoBehaviour {
 		WorldBounds.y = minY;
 		WorldBounds.width = maxX;
 		WorldBounds.height = maxY;
-		MinVector.x = minX;
-		MinVector.y = minY;
-		MaxVector.x = maxX;
-		MaxVector.y = maxY;
+		MinVector.x = minX - 5;
+		MinVector.y = minY - 5;
+		MaxVector.x = maxX + 5;
+		MaxVector.y = maxY + 5;
 	}
 	
 	public void ObjectOfInterest(GameObject obj, float timeToWatch)

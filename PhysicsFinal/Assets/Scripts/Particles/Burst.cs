@@ -46,14 +46,17 @@ public class Burst : BaseParticleSystem {
 
 	//Override the base classes SetParticleDirection method
 	public override void SetParticleDirection(Particle _particle, int _index){
-		float _inRadians = (360/m_particleNumber) * (3.14f/180);
-		Vector2 direction = new Vector2(Mathf.Sin(_inRadians * _index),
-									    Mathf.Cos(_inRadians * _index));
+		float _angleStep = (2 * Mathf.PI) / m_particleNumber;
+
+		Vector2 direction = new Vector2(Mathf.Sin(_angleStep * _index),
+		                                Mathf.Cos(_angleStep * _index));
 
 		_particle.Direction = direction;
 
-		if(m_rotateTowardsVelocity)
-			_particle.transform.LookAt((Vector3)direction - Position);
+		if(m_rotateTowardsVelocity){
+			direction.y = 0.0f;
+			_particle.transform.Rotate(Vector3.RotateTowards(Vector3.forward, direction, 0.5f, 0.0f));
+		}
 	}
 
 	public override void SetParticleDirection(Particle _particle, Vector2 _direction){
