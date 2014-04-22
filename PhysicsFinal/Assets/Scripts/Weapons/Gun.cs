@@ -25,6 +25,12 @@ public class Gun : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+        if (Input.GetButtonDown("Y_" + player.GetComponent<PlayerController>().PlayerNumber))
+        {
+            PickUpModifier(2, 0);
+        }
+
+
 	}
     public void Fire()
 	{
@@ -76,7 +82,24 @@ public class Gun : MonoBehaviour {
 		rotatePoint.rotation = Quaternion.Slerp(rotatePoint.rotation,finalRotation,Time.deltaTime * AimSpeed);
     }
 
-    public bool AddGunModifier(GunModifier m)
+
+    public void PickUpModifier(float radius, int slotIndex)
+    {
+        Collider[] colliders = Physics.OverlapSphere(player.transform.position, radius);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            print("D: " + i);
+            if (colliders[i].tag == "GunModifier")
+            {
+                print("modifier!");
+                GunModifier m = (GunModifier)(colliders[i].transform.parent.gameObject.GetComponent("GunModifier"));
+                AddGunModifier(m);
+            }
+        }
+    }
+
+    private bool AddGunModifier(GunModifier m)
     {
         if (current_modifiers < modifiers.Length)
         {
