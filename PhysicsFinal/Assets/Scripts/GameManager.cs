@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour{
 	void StartZooms(int player){
 	
 		if(player == 1){
-		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.m_spawnLocation1.x, 
+			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.spawnLocations[0].x, 
 		                                                  "easeType", "easeOutQuart", 
 		                                                  "time", 2.0f,
 		                                                  "ignoretimescale",true));
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour{
 	   }      
 	   
 	   if(player == 2){
-		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.m_spawnLocation2.x, 
+		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.spawnLocations[1].x, 
 		                                                  "easeType", "easeOutQuart", 
 		                                                  "time", 2.0f,
 		                                                  "ignoretimescale",true));
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour{
 															   "time", 9.0f,
 															   "ignoretimescale", true));
 			
-			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.m_spawnLocation1.x + 10, 
+			iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.spawnLocations[0].x + 10, 
 			                                                  "easeType", iTween.EaseType.easeInOutSine, 
 			                                                  "time", 7.5f,
 			                                                  "ignoretimescale",true,
@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviour{
 		                                                   "time", 9.0f,
 		                                                   "ignoretimescale", true));
 		                                                   
-		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.m_spawnLocation2.x - 10, 
+		iTween.MoveTo(Camera.main.gameObject, iTween.Hash("x", God.spawnLocations[1].x - 10, 
 			                                              "easeType", iTween.EaseType.easeInOutSine, 
 		                                                  "time", 7.5f,
 		                                                  "ignoretimescale",true,

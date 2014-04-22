@@ -36,12 +36,16 @@ public class LiveActor : MonoBehaviour {
 	}
 	
 	void CleanUp(){
-		Destroy (gameObject);
+		gameObject.SetActive(false);
 		Instantiate(m_deathParticles, transform.position, Quaternion.identity);
+		Respawn();
 	}
 	
 	public void Respawn(){
 		PlayerAlive = true;
+		m_playerHealth = 100;
+		transform.position = God.spawnLocations[Random.Range(0,5)];
+		gameObject.SetActive(true);
 	}
 	public bool PlayerAlive{
 		get { return m_playerAlive; }

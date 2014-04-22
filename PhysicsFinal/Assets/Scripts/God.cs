@@ -15,10 +15,15 @@ public static class God{
 	public static CharacterEnum player3Character;
 	public static CharacterEnum player4Character;
 	
-	public static Vector3 m_spawnLocation1 = new Vector3(-31, 13, -1);
-	public static Vector3 m_spawnLocation2 = new Vector3(25, 13, -1);
-	public static Vector3 m_spawnLocation3;
-	public static Vector3 m_spawnLocation4;
+	public static Vector3[] spawnLocations = new Vector3[6] {new Vector3(-31, 13, -1),
+														  	 new Vector3(25, 13, -1),
+															 new Vector3(-31, 0, 1),
+															 new Vector3(25, 0, -1),
+															 new Vector3(-40, 30, -1),
+															 new Vector3(34, 30, -1)};
+	
+
+	
 	
 	public static int playerCount = 0;
 	
@@ -29,12 +34,12 @@ public static class God{
 		Quaternion rotation;
 		
 		if(playerCount == 0){
-			spawnLocation = m_spawnLocation1;	
+			spawnLocation = spawnLocations[0];	
 			rotation = Quaternion.identity;	
 		}
 		else
 		{
-			spawnLocation = m_spawnLocation2;
+			spawnLocation = spawnLocations[1];
 			rotation = Quaternion.Euler(0, 180, 0);
 		}
 		playerCount++;

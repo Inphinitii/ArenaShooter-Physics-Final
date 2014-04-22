@@ -31,7 +31,13 @@ public class Gun : MonoBehaviour {
         if (!Firing)
 		{
             GameObject bullet = (GameObject)Instantiate(projectile, spawnOrigin.position, spawnOrigin.rotation);
-            Physics.IgnoreCollision(player.collider, bullet.collider);
+            
+            
+            Collider[] mycolliders = player.GetComponents<Collider>();
+            foreach(Collider obj in mycolliders)
+            {
+           		Physics.IgnoreCollision(obj, bullet.collider);
+            }
 
             if (Vector2.Dot((Vector2)(player.rigidbody.velocity).normalized, (Vector2)(player.transform.right)) > 0)
             {

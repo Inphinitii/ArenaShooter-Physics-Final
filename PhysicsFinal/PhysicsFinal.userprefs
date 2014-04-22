@@ -1,8 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Entities\PlayerController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Entities\LiveActor.cs">
     <Files>
+      <File FileName="Assets\Scripts\Entities\LiveActor.cs" Line="40" Column="74" />
       <File FileName="Assets\Scripts\Entities\PlayerController.cs" Line="46" Column="3" />
+      <File FileName="Assets\Scripts\Weapons\BulletScripts\Bullet.cs" Line="21" Column="2" />
+      <File FileName="Assets\Scripts\Camera\DynamicCamera.cs" Line="98" Column="56" />
+      <File FileName="Assets\Scripts\Particles\Particle.cs" Line="19" Column="31" />
+      <File FileName="Assets\Scripts\Particles\Burst.cs" Line="37" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

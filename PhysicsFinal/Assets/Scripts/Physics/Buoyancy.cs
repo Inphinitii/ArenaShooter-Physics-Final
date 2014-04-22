@@ -111,7 +111,6 @@ public class Buoyancy : MonoBehaviour {
 					buoyantForce = new Vector3(0, 0, 0);
 					//damperforce to simulate air resistance
 					//appliedDamper = damper / 1.2f;
-					Debug.Log("above Water");
 				}
 				if (top < waterLine && boxRight > waterLeft && boxLeft < waterRight)
 				{
@@ -129,7 +128,6 @@ public class Buoyancy : MonoBehaviour {
 					//damperForce to simulate the resistance upon a completely submerged box
 					appliedDamper = damper * 2.0f;
 		
-					Debug.Log("below Water");
 				}
 				if (top > waterLine && bottom < waterLine && boxRight > waterLeft && boxLeft < waterRight)
 				{
@@ -149,10 +147,8 @@ public class Buoyancy : MonoBehaviour {
 					//damperForce to simulate the resistance upon a partially submerged box
 					appliedDamper = damper * (waterLine - bottom);
 		
-					Debug.Log("partially submerged");
 				}
 		
-				Debug.Log(boxLeft + " " + waterRight);
 				/*
 				 *	Calculating the Net Force
 				 *	^^^^^^^^^^^ ^^^ ^^^ ^^^^^
