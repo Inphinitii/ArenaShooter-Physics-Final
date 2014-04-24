@@ -8,10 +8,11 @@ public class LiveActor : MonoBehaviour {
 	private int m_playerHealth;
 	private int m_playerLives;
 	private bool m_playerAlive;
+	public bool m_isInWater;
 	// Use this for initialization
 	void Start () {
-		m_playerHealth = 100;
-		m_playerLives = 0;
+		m_playerHealth = 10;
+		m_playerLives = 5;
 		m_playerAlive = true;
 	}
 	
@@ -51,7 +52,7 @@ public class LiveActor : MonoBehaviour {
 	
 	public void Respawn(){
 		PlayerAlive = true;
-		m_playerHealth = 100;
+		m_playerHealth = 10;
 		m_playerLives--;
 		transform.position = God.spawnLocations[Random.Range(0,5)];
 		GetComponent<Rigidbody>().velocity = Vector3.zero;

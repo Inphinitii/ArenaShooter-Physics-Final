@@ -44,6 +44,21 @@ public class MainMenuManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetKey (KeyCode.Joystick1Button0))
+		   Debug.Log("1");
+		if(Input.GetKey (KeyCode.Joystick2Button0))
+		   Debug.Log("2");
+		   
+		if(Input.GetKey (KeyCode.Joystick3Button0))
+		   Debug.Log("3");
+		   
+		if(Input.GetKey (KeyCode.Joystick4Button0))
+		   Debug.Log("4");
+		   
+
+
+
+
 		switch(m_currentMenu)
 		{
 			case Menu.MainMenu:

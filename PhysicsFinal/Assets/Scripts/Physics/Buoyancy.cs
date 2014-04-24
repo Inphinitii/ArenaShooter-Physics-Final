@@ -127,6 +127,9 @@ public class Buoyancy : MonoBehaviour {
 					
 					//damperForce to simulate the resistance upon a completely submerged box
 					appliedDamper = damper * 2.0f;
+					
+					if(boxes[j].GetComponent<LiveActor>())
+							boxes[j].GetComponent<LiveActor>().m_isInWater = true;
 		
 				}
 				if (top > waterLine && bottom < waterLine && boxRight > waterLeft && boxLeft < waterRight)
@@ -146,6 +149,9 @@ public class Buoyancy : MonoBehaviour {
 					
 					//damperForce to simulate the resistance upon a partially submerged box
 					appliedDamper = damper * (waterLine - bottom);
+
+					if(boxes[j].GetComponent<LiveActor>())
+						boxes[j].GetComponent<LiveActor>().m_isInWater = true;
 		
 				}
 		
