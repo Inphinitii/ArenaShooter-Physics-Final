@@ -12,8 +12,11 @@ Dean
 
 ## Controls
 Gamepad only.
+
 Left stick and right stick control player movement and gun rotation respectively.
+
 The A button is to jump.
+
 Right trigger is to shoot. 
 
 ## Gameplay
