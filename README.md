@@ -13,11 +13,10 @@ Dean
 ## Controls
 Gamepad only.
 
-Left stick and right stick control player movement and gun rotation respectively.
-
-The A button is to jump.
-
-Right trigger is to shoot. 
+- Left Stick controls the player movement
+- Right Stick controls the gun rotation
+- A Button is used to jump
+- Right Trigger is used to shoot. 
 
 ## Gameplay
 Users must traverse the map by propelling themselves with their weaponry, all while
