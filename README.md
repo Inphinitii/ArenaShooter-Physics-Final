@@ -18,14 +18,14 @@ Right trigger is to shoot.
 
 ## Gameplay
 Users must traverse the map by propelling themselves with their weaponry, all while
-attempting to kill their opponent
+attempting to kill their opponent(s)
 
 ## Involvement
 My involvement was as follows:
 - Implemented spring physics.
 - Implemented collision and propulsion logic.
 - Worked with group to implement buoyancy
-- Create an importing tool for Tiled tilemaps into Unity3D.
-- Entire UI
-- Polish / Bug fixing.
+- Created an importing tool for Tiled tilemaps into Unity3D.
+- Created the entire UI
+- Helped with polish and bug fixing.
 
